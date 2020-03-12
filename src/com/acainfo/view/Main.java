@@ -1,7 +1,8 @@
-package com.acainfo.main;
+package com.acainfo.view;
 
 public class Main {
+
 	public static void main(String[] args) {
-		new LoginForm();
+		new LoginView();
 	}
 }
