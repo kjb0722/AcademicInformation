@@ -1,97 +1,99 @@
 package com.acainfo.view;
 
-import com.acainfo.controller.Controller;
-import com.acainfo.dto.LoginDto;
-
-import javax.swing.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JDialog;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import com.acainfo.component.KButton;
+import com.acainfo.component.KLabel;
+import com.acainfo.controller.Controller;
+import com.acainfo.dto.LoginDto;
+
 public class LoginView extends JDialog {
 	Controller controller;
-    JLabel lblId;
-    JLabel lblPw;
-    JTextField txtId;
-    JPasswordField txtPw;
-    JButton btnLogin;
-    JButton btnClose;
+	KLabel lblId;
+	KLabel lblPw;
+	JTextField txtId;
+	JPasswordField txtPw;
+	KButton btnLogin;
+	KButton btnClose;
 
-    public LoginView(Controller controller) {
-    	this.controller = controller;
-        // ∂Û∫ß √ ±‚»≠
-        lblInit();
+	public LoginView(Controller controller) {
+		this.controller = controller;
+		lblInit();
 
-        // ≈ÿΩ∫∆Æ √ ±‚»≠
-        txtInit();
+		txtInit();
 
-        // πˆ∆∞ √ ±‚»≠
-        btnInit();
+		btnInit();
 
-        // JFrame √ ±‚»≠
-        init();
+		init();
 
-        btnLogin.setFocusable(true);
-    }
+		btnLogin.setFocusable(true);
+	}
 
-    private void btnInit() {
-        btnLogin = new JButton("∑Œ±◊¿Œ");
-        btnLogin.setBounds(20, 110, 150, 50);
-        add(btnLogin);
+	private void btnInit() {
+		btnLogin = new KButton("Î°úÍ∑∏Ïù∏");
+		btnLogin.setBounds(20, 110, 150, 50);
+		add(btnLogin);
 
-        btnClose = new JButton("≥™∞°±‚");
-        btnClose.setBounds(180, 110, 150, 50);
-        add(btnClose);
+		btnClose = new KButton("Ï¢ÖÎ£å");
+		btnClose.setBounds(180, 110, 150, 50);
+		add(btnClose);
 
-        btnAddAction();
-    }
+		btnAddAction();
+	}
 
-    private void btnAddAction() {
-        ActionListener listener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Object target = e.getSource();
-                if (target == btnLogin) {
-                    String id = txtId.getText();
-                    String pw = String.valueOf(txtPw.getPassword());
-                    controller.login(new LoginDto(id,pw));
-                } else if (target == btnClose) {
-                    dispose();
-                }
-            }
-        };
+	private void btnAddAction() {
+		ActionListener listener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Object target = e.getSource();
+				if (target == btnLogin) {
+					String id = txtId.getText();
+					String pw = String.valueOf(txtPw.getPassword());
+					controller.login(new LoginDto(id, pw));
+				} else if (target == btnClose) {
+					dispose();
+				}
+			}
+		};
 
-        btnLogin.addActionListener(listener);
-        btnClose.addActionListener(listener);
-    }
+		btnLogin.addActionListener(listener);
+		btnClose.addActionListener(listener);
+	}
 
-    private void txtInit() {
-        txtId = new JTextField();
-        txtId.setBounds(150, 25, 120, 25);
-        add(txtId);
+	private void txtInit() {
+		txtId = new JTextField();
+		txtId.setBounds(150, 25, 120, 25);
+		add(txtId);
 
-        txtPw = new JPasswordField();
-        txtPw.setBounds(150, 65, 120, 25);
-        add(txtPw);
-    }
+		txtPw = new JPasswordField();
+		txtPw.setBounds(150, 65, 120, 25);
+		add(txtPw);
+	}
 
-    private void lblInit() {
-        lblId = new JLabel("æ∆¿Ãµ : ");
-        lblId.setBounds(85, 10, 70, 50);
-        add(lblId);
+	private void lblInit() {
+		lblId = new KLabel("ÏïÑÏù¥Îîî : ");
+		lblId.setBounds(85, 10, 70, 50);
+		add(lblId);
 
-        lblPw = new JLabel("∫Òπ–π¯»£ : ");
-        lblPw.setBounds(75, 50, 70, 50);
-        add(lblPw);
-    }
+		lblPw = new KLabel("ÎπÑÎ∞ÄÎ≤àÌò∏: ");
+		lblPw.setBounds(75, 50, 70, 50);
+		add(lblPw);
+	}
 
-    private void init() {
-        setTitle("∑Œ±◊¿Œ");
-        setSize(350, 180);
-        setLayout(null);
-        setResizable(false);
+	private void init() {
+		setTitle("[ Î°úÍ∑∏Ïù∏ ]");
+		setSize(350, 180);
+		setLayout(null);
+		setResizable(false);
 		setUndecorated(true);
-        setLocationRelativeTo(null);
-        setModal(true);
-        setVisible(true);
-    }
+		setLocationRelativeTo(null);
+		setModal(true);
+		setVisible(true);
+	}
 }
