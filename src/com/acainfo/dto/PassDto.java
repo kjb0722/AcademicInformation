@@ -1,10 +1,10 @@
 package com.acainfo.dto;
 
-public class LoginDto {
+public class PassDto {
     private String id;
     private String pw;
 
-    public LoginDto(String id, String pw) {
+    public PassDto(String id, String pw) {
         this.id = id;
         this.pw = pw;
     }

@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 import com.acainfo.component.KButton;
 import com.acainfo.component.KLabel;
 import com.acainfo.controller.Controller;
-import com.acainfo.dto.LoginDto;
+import com.acainfo.dto.PassDto;
 
 public class LoginView extends JDialog {
 	Controller controller;
@@ -55,7 +55,9 @@ public class LoginView extends JDialog {
 				if (target == btnLogin) {
 					String id = txtId.getText();
 					String pw = String.valueOf(txtPw.getPassword());
-					controller.login(new LoginDto(id, pw));
+					if(controller.login(new PassDto(id, pw))) {
+						
+					}
 				} else if (target == btnClose) {
 					dispose();
 				}
