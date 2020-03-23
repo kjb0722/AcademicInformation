@@ -8,9 +8,7 @@ import java.sql.SQLException;
 import com.acainfo.controller.DbUtil;
 import com.acainfo.dto.PassDto;
 
-public class PassDao {
-	Connection con = null;
-
+public class PassDao extends Dao {
 	public boolean login(PassDto dto) {
 		con = null;
 		PreparedStatement pstmt = null;
@@ -30,7 +28,7 @@ public class PassDao {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} finally {
-			DbUtil.disConn(con);
+			DbUtil.dbClose(rs, pstmt, con);
 		}
 		return false;
 	}

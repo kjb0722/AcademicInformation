@@ -16,9 +16,12 @@ import com.acainfo.component.KButton;
 import com.acainfo.component.KLabel;
 import com.acainfo.component.KPanel;
 import com.acainfo.controller.Controller;
+import com.acainfo.dto.MemberDto;
 
 public class MainView extends JFrame {
 	private Controller controller;
+	
+	private MemberDto memberDto;
 
 	private KPanel pnlNorth;
 	private KPanel pnlTitle;
@@ -186,6 +189,7 @@ public class MainView extends JFrame {
 	}
 
 	public void loginLoad() {
-		new LoginView(controller);
+		LoginView loginView = new LoginView(controller);
+		memberDto = loginView.getMemberDto();
 	}
 }

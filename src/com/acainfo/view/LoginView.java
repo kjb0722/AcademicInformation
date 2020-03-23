@@ -11,10 +11,14 @@ import javax.swing.JTextField;
 import com.acainfo.component.KButton;
 import com.acainfo.component.KLabel;
 import com.acainfo.controller.Controller;
+import com.acainfo.dto.MemberDto;
 import com.acainfo.dto.PassDto;
 
 public class LoginView extends JDialog {
 	Controller controller;
+	
+	MemberDto memberDto;
+	
 	KLabel lblId;
 	KLabel lblPw;
 	JTextField txtId;
@@ -55,8 +59,9 @@ public class LoginView extends JDialog {
 				if (target == btnLogin) {
 					String id = txtId.getText();
 					String pw = String.valueOf(txtPw.getPassword());
-					if(controller.login(new PassDto(id, pw))) {
-						
+					PassDto dto = new PassDto(id, pw);
+					if(controller.login(dto)) {
+						controller.memberInfo(dto);
 					}
 				} else if (target == btnClose) {
 					dispose();
@@ -97,5 +102,9 @@ public class LoginView extends JDialog {
 		setLocationRelativeTo(null);
 		setModal(true);
 		setVisible(true);
+	}
+
+	public MemberDto getMemberDto() {
+		return null;
 	}
 }

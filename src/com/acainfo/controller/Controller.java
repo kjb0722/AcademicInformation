@@ -1,15 +1,12 @@
 package com.acainfo.controller;
 
+import com.acainfo.dao.MemberDao;
 import com.acainfo.dao.PassDao;
+import com.acainfo.dto.MemberDto;
 import com.acainfo.dto.PassDto;
-import com.acainfo.view.LoginView;
 import com.acainfo.view.MainView;
 
-import java.sql.Connection;
-
 public class Controller {
-	Connection con = null;
-
 	public void main() {
 		mainLoad();
 	}
@@ -22,5 +19,10 @@ public class Controller {
 	public boolean login(PassDto dto) {
 		PassDao dao = new PassDao();
 		return dao.login(dto);
+	}
+
+	public MemberDto memberInfo(PassDto dto) {
+		MemberDao dao = new MemberDao();
+		return dao.getMemberInfo(dto.getId(), dto.getPw());
 	}
 }
