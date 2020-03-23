@@ -1,11 +1,9 @@
 package com.acainfo.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.acainfo.controller.DbUtil;
 import com.acainfo.dto.PassDto;
 
 public class PassDao extends Dao {
@@ -14,8 +12,8 @@ public class PassDao extends Dao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			con = DbUtil.conn();
-			String sql = "select id from pass where id=? and pw=?";
+			con = conn();
+			String sql = "select id from pass where id=? and pass=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, dto.getId());
 			pstmt.setString(2, dto.getPw());
@@ -28,7 +26,7 @@ public class PassDao extends Dao {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} finally {
-			DbUtil.dbClose(rs, pstmt, con);
+			dbClose(rs, pstmt, con);
 		}
 		return false;
 	}

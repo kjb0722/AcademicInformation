@@ -1,6 +1,7 @@
 package com.acainfo.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -20,7 +21,7 @@ import com.acainfo.dto.MemberDto;
 
 public class MainView extends JFrame {
 	private Controller controller;
-	
+
 	private MemberDto memberDto;
 
 	private KPanel pnlNorth;
@@ -41,6 +42,7 @@ public class MainView extends JFrame {
 	private KLabel lblName;
 	private KLabel lblEmail;
 	private KLabel lblPhone;
+	private KLabel lblStatus;
 
 	private JTextField txtId;
 	private JTextField txtNum;
@@ -59,11 +61,11 @@ public class MainView extends JFrame {
 		panelInit();
 
 		northInit();
-		
+
 		tabInit();
 
 		userInfoInit();
-		
+
 		listenerInit();
 
 		init();
@@ -73,7 +75,7 @@ public class MainView extends JFrame {
 		lblId = new KLabel("아이디 : ");
 		lblId.setBounds(50, 30, 100, 30);
 		pnlUserInfo.add(lblId);
-		
+
 		txtId = new JTextField();
 		txtId.setBounds(120, 35, 100, 25);
 		pnlUserInfo.add(txtId);
@@ -81,7 +83,7 @@ public class MainView extends JFrame {
 		lblNum = new KLabel("학번 : ");
 		lblNum.setBounds(50, 70, 100, 30);
 		pnlUserInfo.add(lblNum);
-		
+
 		txtNum = new JTextField();
 		txtNum.setBounds(120, 75, 100, 25);
 		pnlUserInfo.add(txtNum);
@@ -89,7 +91,7 @@ public class MainView extends JFrame {
 		lblGradeYear = new KLabel("학년 : ");
 		lblGradeYear.setBounds(50, 110, 100, 30);
 		pnlUserInfo.add(lblGradeYear);
-		
+
 		txtGradeYear = new JTextField();
 		txtGradeYear.setBounds(120, 115, 100, 25);
 		pnlUserInfo.add(txtGradeYear);
@@ -97,7 +99,7 @@ public class MainView extends JFrame {
 		lblName = new KLabel("이름 : ");
 		lblName.setBounds(50, 150, 100, 30);
 		pnlUserInfo.add(lblName);
-		
+
 		txtName = new JTextField();
 		txtName.setBounds(120, 155, 100, 25);
 		pnlUserInfo.add(txtName);
@@ -105,7 +107,7 @@ public class MainView extends JFrame {
 		lblEmail = new KLabel("이메일 : ");
 		lblEmail.setBounds(50, 190, 100, 30);
 		pnlUserInfo.add(lblEmail);
-		
+
 		txtEmail = new JTextField();
 		txtEmail.setBounds(120, 195, 100, 25);
 		pnlUserInfo.add(txtEmail);
@@ -113,7 +115,7 @@ public class MainView extends JFrame {
 		lblPhone = new KLabel("휴대폰 번호 : ");
 		lblPhone.setBounds(50, 230, 100, 30);
 		pnlUserInfo.add(lblPhone);
-		
+
 		txtPhone = new JTextField();
 		txtPhone.setBounds(150, 235, 100, 25);
 		pnlUserInfo.add(txtPhone);
@@ -125,7 +127,7 @@ public class MainView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Object target = e.getSource();
 				if (target == btnLogout) {
-
+					loginLoad();
 				} else if (target == btnClose) {
 					System.exit(0);
 				}
@@ -140,6 +142,10 @@ public class MainView extends JFrame {
 		lblTitle = new KLabel("[ 학사 정보 관리 ]");
 		lblTitle.setFont(new Font("맑은 고딕", Font.BOLD, 24));
 		pnlTitle.add(lblTitle);
+
+		lblStatus = new KLabel();
+		lblStatus.setForeground(Color.red);
+		pnlMenu.add(lblStatus);
 
 		btnLogout = new KButton("로그아웃");
 		pnlMenu.add(btnLogout);
@@ -191,5 +197,9 @@ public class MainView extends JFrame {
 	public void loginLoad() {
 		LoginView loginView = new LoginView(controller);
 		memberDto = loginView.getMemberDto();
+
+		if (memberDto != null) {
+			lblStatus.setText("[ " + memberDto.getName() + " ]");
+		}
 	}
 }

@@ -23,6 +23,6 @@ public class Controller {
 
 	public MemberDto memberInfo(PassDto dto) {
 		MemberDao dao = new MemberDao();
-		return dao.getMemberInfo(dto.getId(), dto.getPw());
+		return dao.getMemberInfo(dto.getId());
 	}
 }
