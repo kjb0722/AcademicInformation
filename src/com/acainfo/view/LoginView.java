@@ -9,14 +9,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.acainfo.component.KButton;
+import com.acainfo.component.KDialog;
 import com.acainfo.component.KLabel;
 import com.acainfo.controller.Controller;
 import com.acainfo.dto.MemberDto;
 import com.acainfo.dto.PassDto;
 
-public class LoginView extends JDialog {
-	Controller controller;
-
+public class LoginView extends KDialog {
 	MemberDto memberDto;
 
 	KLabel lblId;
@@ -27,7 +26,8 @@ public class LoginView extends JDialog {
 	KButton btnClose;
 
 	public LoginView(Controller controller) {
-		this.controller = controller;
+		super(controller);
+
 		lblInit();
 
 		txtInit();
@@ -87,8 +87,8 @@ public class LoginView extends JDialog {
 		String id = txtId.getText();
 		String pw = String.valueOf(txtPw.getPassword());
 		PassDto dto = new PassDto(id, pw);
-		if (controller.login(dto)) {
-			memberDto = controller.memberInfo(dto);
+		if (controller.selectLogin(dto)) {
+			memberDto = controller.selectMemInfo(dto);
 			dispose();
 		} else {
 			JOptionPane.showMessageDialog(this, "아이디 혹은 비밀번호가 틀렸습니다.");
@@ -118,12 +118,9 @@ public class LoginView extends JDialog {
 
 	private void init() {
 		setTitle("[ 로그인 ]");
-		setSize(350, 180);
 		setLayout(null);
-		setResizable(false);
-		setUndecorated(true);
+		setSize(350, 180);
 		setLocationRelativeTo(null);
-		setModal(true);
 		setVisible(true);
 	}
 

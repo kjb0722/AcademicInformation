@@ -9,14 +9,15 @@ public class KButton extends JButton {
 	public KButton() {
 		init();
 	}
-	
+
 	public KButton(String text) {
 		setText(text);
 		init();
 	}
-	
+
 	private void init() {
 		setBackground(Color.white);
-		setFont(new Font("맑은 고딕",Font.BOLD,14));
+		setFont(new Font("맑은 고딕", Font.BOLD, 14));
+		setSize(100, 30);
 	}
 }

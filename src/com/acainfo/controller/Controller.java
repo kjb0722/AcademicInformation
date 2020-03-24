@@ -1,7 +1,11 @@
 package com.acainfo.controller;
 
+import java.util.ArrayList;
+
+import com.acainfo.dao.DpmDao;
 import com.acainfo.dao.MemberDao;
 import com.acainfo.dao.PassDao;
+import com.acainfo.dto.DpmDto;
 import com.acainfo.dto.MemberDto;
 import com.acainfo.dto.PassDto;
 import com.acainfo.view.MainView;
@@ -16,13 +20,33 @@ public class Controller {
 		mainView.loginLoad();
 	}
 
-	public boolean login(PassDto dto) {
+	public boolean selectLogin(PassDto dto) {
 		PassDao dao = new PassDao();
-		return dao.login(dto);
+		return dao.selectLogin(dto);
 	}
 
-	public MemberDto memberInfo(PassDto dto) {
+	public MemberDto selectMemInfo(PassDto dto) {
 		MemberDao dao = new MemberDao();
-		return dao.getMemberInfo(dto.getId());
+		return dao.selectMemInfo(dto.getId());
+	}
+
+	public ArrayList<MemberDto> selectMemListAll() {
+		MemberDao dao = new MemberDao();
+		return dao.selectMemListAll();
+	}
+
+	public boolean insertMember(MemberDto dto, String pass) {
+		MemberDao dao = new MemberDao();
+		return dao.insertMember(dto, pass);
+	}
+
+	public ArrayList<MemberDto> selectMemList(int auth) {
+		MemberDao dao = new MemberDao();
+		return dao.selectMemList(auth);
+	}
+
+	public ArrayList<DpmDto> selectDpmList() {
+		DpmDao dao = new DpmDao();
+		return dao.selectDpmList();
 	}
 }

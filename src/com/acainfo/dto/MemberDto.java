@@ -100,12 +100,11 @@ public class MemberDto {
 		this.auth = auth;
 	}
 
-	public Date getUsdate() {
+	public Date getMedate() {
 		return usdate;
 	}
 
-	public void setUsdate(Date usdate) {
+	public void setMedate(Date usdate) {
 		this.usdate = usdate;
 	}
-
 }

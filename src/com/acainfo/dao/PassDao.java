@@ -7,18 +7,19 @@ import java.sql.SQLException;
 import com.acainfo.dto.PassDto;
 
 public class PassDao extends Dao {
-	public boolean login(PassDto dto) {
+	public boolean selectLogin(PassDto dto) {
 		con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			con = conn();
-			String sql = "select id from pass where id=? and pass=?";
+			String sql = "select id from pass where id=? and pass=? and del_yn='N'";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, dto.getId());
 			pstmt.setString(2, dto.getPw());
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
+				System.out.println("[ selectLogin 성공 ]");
 				return true;
 			} else {
 				return false;
