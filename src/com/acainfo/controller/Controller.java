@@ -68,4 +68,8 @@ public class Controller {
 	public boolean deleteDpm(int deNum) {
 		return dpmDao.deleteDpm(deNum);
 	}
+
+	public ArrayList<DpmDto> selectNoneDpmMember() {
+		return dpmDao.selectNoneDpmMember();
+	}
 }

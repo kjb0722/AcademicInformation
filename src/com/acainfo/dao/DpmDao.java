@@ -89,4 +89,32 @@ public class DpmDao extends Dao {
 		return false;
 	}
 
+	public ArrayList<DpmDto> selectNoneDpmMember() {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<DpmDto> list = null;
+		try {
+			con = DbUtil.conn();
+			String sql = "select denum,name,del_yn from department where del_yn='N'";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			list = new ArrayList<DpmDto>();
+			while (rs.next()) {
+				int denum = rs.getInt("denum");
+				String name = rs.getString("name");
+				String del_yn = rs.getString("del_yn");
+				list.add(new DpmDto(denum, name, del_yn));
+			}
+
+			System.out.println("[ selectNoneDpmMember 성공 ]");
+			return list;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		} finally {
+			DbUtil.dbClose(rs, pstmt, con);
+		}
+	}
+
 }
