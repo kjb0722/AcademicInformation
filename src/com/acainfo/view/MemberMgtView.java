@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import com.acainfo.component.KButton;
 import com.acainfo.component.KDialog;
 import com.acainfo.component.KPanel;
+import com.acainfo.component.KTable;
 import com.acainfo.controller.Controller;
 import com.acainfo.dto.MemberDto;
 
@@ -25,7 +26,7 @@ public class MemberMgtView extends KDialog {
 	KButton btnAdd;
 	KButton btnClose;
 
-	JTable table;
+	KTable table;
 	DefaultTableModel model;
 	JScrollPane scroll;
 
@@ -99,18 +100,18 @@ public class MemberMgtView extends KDialog {
 	}
 
 	private void tableInit() {
-		table = new JTable();
+		table = new KTable();
 		String col[] = { "회원 번호", "아이디", "이름", "이메일", "전화번호", "주소", "학년", "재학 여부", "구분", "등록 날짜" };
 		model = new DefaultTableModel(col, 0);
 		table.setModel(model);
 		scroll = new JScrollPane(table);
-		scroll.setBounds(0, 50, 550, this.getHeight() - 50);
+		scroll.setBounds(0, 50, 900, 500);
 		add(scroll);
 	}
 
 	private void menuInit() {
 		pnlMenu = new KPanel();
-		pnlMenu.setBounds(0, 0, 550, 50);
+		pnlMenu.setBounds(0, 0, 900, 50);
 		add(pnlMenu);
 
 		btnProfessor = new KButton("교수 검색");
@@ -122,17 +123,17 @@ public class MemberMgtView extends KDialog {
 		pnlMenu.add(btnStudent);
 
 		btnAdd = new KButton("추가");
-		btnAdd.setLocation(320, 10);
+		btnAdd.setLocation(670, 10);
 		pnlMenu.add(btnAdd);
 
 		btnClose = new KButton("닫기");
-		btnClose.setLocation(440, 10);
+		btnClose.setLocation(790, 10);
 		pnlMenu.add(btnClose);
 	}
 
 	private void init() {
 		setTitle("[ 회원 관리 ]");
-		setSize(550, 500);
+		setSize(900, 500);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}

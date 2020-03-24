@@ -40,6 +40,7 @@ public class MainView extends JFrame {
 	private KButton btnClose;
 	private KButton btnMemberMgt;
 	private KButton btnDpmMgt;
+	private KButton btnDpmMemMgt;
 
 	private KLabel lblTitle;
 	private KLabel lblId;
@@ -293,8 +294,13 @@ public class MainView extends JFrame {
 		pnlAdmin.add(btnMemberMgt);
 
 		btnDpmMgt = new KButton("학과 관리");
-		btnDpmMgt.setLocation(40, 80);
+		btnDpmMgt.setLocation(40, 100);
 		pnlAdmin.add(btnDpmMgt);
+
+		btnDpmMemMgt = new KButton("학과 회원 관리");
+		btnDpmMemMgt.setLocation(40, 160);
+		btnDpmMemMgt.setBounds(40, 160, 130, 30);
+		pnlAdmin.add(btnDpmMemMgt);
 
 		adminListener();
 	}
@@ -307,12 +313,15 @@ public class MainView extends JFrame {
 				if (target == btnMemberMgt) {
 					new MemberMgtView(controller);
 				} else if (target == btnDpmMgt) {
-					new DpmListView(controller);
+					new DpmMgtView(controller);
+				} else if (target == btnDpmMemMgt) {
+					new DpmMemMgtView(controller);
 				}
 			}
 		};
 
 		btnMemberMgt.addActionListener(listener);
 		btnDpmMgt.addActionListener(listener);
+		btnDpmMemMgt.addActionListener(listener);
 	}
 }

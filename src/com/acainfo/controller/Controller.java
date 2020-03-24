@@ -11,8 +11,19 @@ import com.acainfo.dto.PassDto;
 import com.acainfo.view.MainView;
 
 public class Controller {
+	PassDao passDao;
+	MemberDao memberDao;
+	DpmDao dpmDao;
+
 	public void main() {
+		daoInit();
 		mainLoad();
+	}
+
+	private void daoInit() {
+		passDao = new PassDao();
+		memberDao = new MemberDao();
+		dpmDao = new DpmDao();
 	}
 
 	private void mainLoad() {
@@ -21,32 +32,40 @@ public class Controller {
 	}
 
 	public boolean selectLogin(PassDto dto) {
-		PassDao dao = new PassDao();
-		return dao.selectLogin(dto);
+		passDao = new PassDao();
+		return passDao.selectLogin(dto);
 	}
 
 	public MemberDto selectMemInfo(PassDto dto) {
-		MemberDao dao = new MemberDao();
-		return dao.selectMemInfo(dto.getId());
+		memberDao = new MemberDao();
+		return memberDao.selectMemInfo(dto.getId());
 	}
 
 	public ArrayList<MemberDto> selectMemListAll() {
-		MemberDao dao = new MemberDao();
-		return dao.selectMemListAll();
+		memberDao = new MemberDao();
+		return memberDao.selectMemListAll();
 	}
 
 	public boolean insertMember(MemberDto dto, String pass) {
-		MemberDao dao = new MemberDao();
-		return dao.insertMember(dto, pass);
+		memberDao = new MemberDao();
+		return memberDao.insertMember(dto, pass);
 	}
 
 	public ArrayList<MemberDto> selectMemList(int auth) {
-		MemberDao dao = new MemberDao();
-		return dao.selectMemList(auth);
+		memberDao = new MemberDao();
+		return memberDao.selectMemList(auth);
 	}
 
 	public ArrayList<DpmDto> selectDpmList() {
-		DpmDao dao = new DpmDao();
-		return dao.selectDpmList();
+		dpmDao = new DpmDao();
+		return dpmDao.selectDpmList();
+	}
+
+	public boolean insertDpm(String dpmName) {
+		return dpmDao.insertDpm(dpmName);
+	}
+
+	public boolean deleteDpm(int deNum) {
+		return dpmDao.deleteDpm(deNum);
 	}
 }

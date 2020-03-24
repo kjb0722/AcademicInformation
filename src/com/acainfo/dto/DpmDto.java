@@ -6,7 +6,6 @@ public class DpmDto {
 	private String del_yn;
 
 	public DpmDto(int denum, String name, String del_yn) {
-		super();
 		this.denum = denum;
 		this.name = name;
 		this.del_yn = del_yn;
