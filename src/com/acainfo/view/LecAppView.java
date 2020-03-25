@@ -33,7 +33,7 @@ public class LecAppView extends KPanel {
 
 		tableInit();
 
-		selectLecAll();
+		//selectLecAll();
 	}
 
 	public void selectLecAll() {

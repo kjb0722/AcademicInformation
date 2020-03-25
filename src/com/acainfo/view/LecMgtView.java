@@ -39,7 +39,7 @@ public class LecMgtView extends KPanel {
 
 		tableInit();
 
-		selectLec();
+		//selectLec();
 	}
 
 	public void selectLec() {

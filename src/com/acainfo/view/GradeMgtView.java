@@ -4,6 +4,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.JScrollPane;
@@ -27,10 +28,12 @@ public class GradeMgtView extends KPanel {
 
 		tableInit();
 
-		selectGradeMgt();
+		//selectGradeMgt();
 	}
 
 	public void selectGradeMgt() {
+		model.setRowCount(0);
+		
 		ArrayList<GradeDto> arrayDto = new ArrayList<GradeDto>();
 		if (MainView.memberDto.getNum() == -1) {
 			return;
@@ -67,7 +70,13 @@ public class GradeMgtView extends KPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					GradeInputView inputView = new GradeInputView(controller);
+					int leNum = (int) model.getValueAt(table.getSelectedRow(), 0);
+					int num = (int) model.getValueAt(table.getSelectedRow(), 1);
+					int score = (int) model.getValueAt(table.getSelectedRow(), 2);
+					String rank = (String) model.getValueAt(table.getSelectedRow(), 3);
+					GradeDto gradeDto = new GradeDto(leNum, num, score, rank, "N", null);
+					GradeInputView inputView = new GradeInputView(controller, gradeDto);
+					selectGradeMgt();
 				}
 			}
 		};

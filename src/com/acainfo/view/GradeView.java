@@ -24,7 +24,7 @@ public class GradeView extends KPanel {
 
 		tableInit();
 
-		selectGrade();
+		//selectGrade();
 	}
 
 	public void selectGrade() {

@@ -3,6 +3,7 @@ package com.acainfo.view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -16,8 +17,6 @@ import com.acainfo.controller.Controller;
 import com.acainfo.dto.MemberDto;
 
 public class MemberAddView extends KDialog {
-	private KPanel pnlMemberInfo;
-
 	private KButton btnAdd;
 	private KButton btnClose;
 
@@ -37,7 +36,10 @@ public class MemberAddView extends KDialog {
 	private JTextField txtEmail;
 	private JTextField txtPhone;
 	private JTextField txtAddr;
-	private JTextField txtAuth;
+
+	private JComboBox<Integer> cboAuth;
+
+	private Integer authList[] = { 10, 50, 99 };
 
 	public MemberAddView(Controller controller) {
 		super(controller);
@@ -95,14 +97,6 @@ public class MemberAddView extends KDialog {
 			JOptionPane.showMessageDialog(this, "학년을 입력하세요.");
 			return;
 		}
-		if (txtAuth.getText().equals("")) {
-			JOptionPane.showMessageDialog(this, "구분을 입력하세요.");
-			return;
-		} else if (!txtAuth.getText().equals("10") && !txtAuth.getText().equals("50")
-				&& !txtAuth.getText().equals("99")) {
-			JOptionPane.showMessageDialog(this, "구분은 10(학생), 50(교수), 99(관리자)만 입력할 수 있습니다.");
-			return;
-		}
 
 		String id = txtId.getText();
 		String pass = String.valueOf(txtPass.getPassword());
@@ -111,7 +105,7 @@ public class MemberAddView extends KDialog {
 		String phone = txtPhone.getText();
 		String addr = txtAddr.getText();
 		int hagnyeno = Integer.parseInt(txtHagnyeno.getText());
-		int auth = Integer.parseInt(txtAuth.getText());
+		int auth = (int) cboAuth.getSelectedItem();
 		MemberDto dto = new MemberDto(-1, id, name, email, phone, addr, hagnyeno, "Y", auth, null);
 		if (controller.insertMember(dto, pass)) {
 			JOptionPane.showMessageDialog(this, "[ 회원 추가 성공 ]");
@@ -130,81 +124,80 @@ public class MemberAddView extends KDialog {
 	}
 
 	private void memberInfoInit() {
-		pnlMemberInfo = new KPanel();
-		pnlMemberInfo.setBounds(0, 0, this.getWidth(), this.getHeight());
-		add(pnlMemberInfo);
-
 		lblId = new KLabel("아이디 : ");
 		lblId.setBounds(50, 30, 100, 30);
-		pnlMemberInfo.add(lblId);
+		add(lblId);
 
 		txtId = new JTextField();
 		txtId.setBounds(120, 35, 100, 25);
-		pnlMemberInfo.add(txtId);
+		add(txtId);
 
 		lblPass = new KLabel("비밀번호 : ");
 		lblPass.setBounds(50, 70, 100, 30);
-		pnlMemberInfo.add(lblPass);
+		add(lblPass);
 
 		txtPass = new JPasswordField();
 		txtPass.setBounds(120, 75, 100, 25);
-		pnlMemberInfo.add(txtPass);
+		add(txtPass);
 
 		lblHagnyeno = new KLabel("학년 : ");
 		lblHagnyeno.setBounds(50, 110, 100, 30);
-		pnlMemberInfo.add(lblHagnyeno);
+		add(lblHagnyeno);
 
 		txtHagnyeno = new KNumField();
 		txtHagnyeno.setBounds(120, 115, 100, 25);
-		pnlMemberInfo.add(txtHagnyeno);
+		add(txtHagnyeno);
 
 		lblName = new KLabel("이름 : ");
 		lblName.setBounds(50, 150, 100, 30);
-		pnlMemberInfo.add(lblName);
+		add(lblName);
 
 		txtName = new JTextField();
 		txtName.setBounds(120, 155, 100, 25);
-		pnlMemberInfo.add(txtName);
+		add(txtName);
 
 		lblEmail = new KLabel("이메일 : ");
 		lblEmail.setBounds(50, 190, 100, 30);
-		pnlMemberInfo.add(lblEmail);
+		add(lblEmail);
 
 		txtEmail = new JTextField();
 		txtEmail.setBounds(120, 195, 100, 25);
-		pnlMemberInfo.add(txtEmail);
+		add(txtEmail);
 
 		lblPhone = new KLabel("휴대폰 번호 : ");
 		lblPhone.setBounds(50, 230, 100, 30);
-		pnlMemberInfo.add(lblPhone);
+		add(lblPhone);
 
 		txtPhone = new JTextField();
 		txtPhone.setBounds(150, 235, 100, 25);
-		pnlMemberInfo.add(txtPhone);
+		add(txtPhone);
 
 		lblAddr = new KLabel("주소 : ");
 		lblAddr.setBounds(50, 270, 100, 30);
-		pnlMemberInfo.add(lblAddr);
+		add(lblAddr);
 
 		txtAddr = new JTextField();
 		txtAddr.setBounds(120, 275, 100, 25);
 		txtAddr.setSize(250, 25);
-		pnlMemberInfo.add(txtAddr);
+		add(txtAddr);
 
 		lblAuth = new KLabel("구분 : ");
 		lblAuth.setBounds(50, 310, 100, 30);
-		pnlMemberInfo.add(lblAuth);
+		add(lblAuth);
 
-		txtAuth = new JTextField();
-		txtAuth.setBounds(120, 315, 100, 25);
-		pnlMemberInfo.add(txtAuth);
+		cboAuth = new JComboBox<Integer>();
+		cboAuth.setBounds(120, 315, 100, 25);
+		for (int i = 0; i < authList.length; i++) {
+			cboAuth.addItem(authList[i]);
+		}
+		add(cboAuth);
 
 		btnAdd = new KButton("저장");
 		btnAdd.setLocation(95, 360);
-		pnlMemberInfo.add(btnAdd);
+		add(btnAdd);
 
 		btnClose = new KButton("닫기");
 		btnClose.setLocation(205, 360);
-		pnlMemberInfo.add(btnClose);
+		add(btnClose);
 	}
 }

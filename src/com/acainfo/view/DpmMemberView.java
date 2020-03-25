@@ -2,6 +2,8 @@ package com.acainfo.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -33,21 +35,18 @@ public class DpmMemberView extends KPanel {
 
 		tableInit();
 
-		selectDpmList();
+		// selectDpmList();
 
-		selectMemMemDpm();
+		// selectMemMemDpm();
 	}
 
 	public void selectMemMemDpm() {
 		model.setNumRows(0);
 
 		ArrayList<MemberDto> list = null;
-
 		ValueItem vi = (ValueItem) cboDpm.getSelectedItem();
 		list = controller.selectMemDpm(vi.getValue());
-
 		if (list == null) {
-			JOptionPane.showMessageDialog(this, "[ memSrh() 오류 ]");
 			return;
 		}
 
@@ -67,7 +66,7 @@ public class DpmMemberView extends KPanel {
 		}
 	}
 
-	private void selectDpmList() {
+	public void selectDpmList() {
 		cboDpm.removeAllItems();
 
 		ArrayList<DpmDto> dpmDto = controller.selectDpmList();
@@ -97,10 +96,12 @@ public class DpmMemberView extends KPanel {
 	}
 
 	private void cboListener() {
-		cboDpm.addActionListener(new ActionListener() {
+		cboDpm.addItemListener(new ItemListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				selectMemMemDpm();
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					selectMemMemDpm();
+				}
 			}
 		});
 	}

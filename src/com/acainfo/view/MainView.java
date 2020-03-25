@@ -12,6 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import com.acainfo.component.KButton;
 import com.acainfo.component.KLabel;
@@ -65,7 +67,6 @@ public class MainView extends JFrame {
 
 	public MainView(Controller controller) {
 		this.controller = controller;
-
 		memberDtoInit();
 
 		panelInit();
@@ -176,17 +177,12 @@ public class MainView extends JFrame {
 	public void reloadLogin() {
 		memberDto = null;
 		loginLoad();
-		dpmLoad();
-		lecLoad();
-		lecMgtLoad();
-		gradeLoad();
-		gradeMgtLoad();
 	}
-	
+
 	private void gradeMgtLoad() {
 		pnlGradeMgt.selectGradeMgt();
 	}
-	
+
 	private void gradeLoad() {
 		pnlGrade.selectGrade();
 	}
@@ -200,6 +196,7 @@ public class MainView extends JFrame {
 	}
 
 	private void dpmLoad() {
+		pnlDepartment.selectDpmList();
 		pnlDepartment.selectMemMemDpm();
 	}
 
@@ -254,6 +251,37 @@ public class MainView extends JFrame {
 		tab.addTab("수강 신청", pnlLecture);
 		tab.addTab("성적", pnlGrade);
 		add(tab, BorderLayout.CENTER);
+
+		tabListener();
+	}
+
+	private void tabListener() {
+		tab.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				switch (tab.getSelectedIndex()) {
+				case 0:
+					break;
+				case 1:
+					dpmLoad();
+					break;
+				case 2:
+					lecLoad();
+					break;
+				case 3:
+					gradeLoad();
+					break;
+				case 4:
+					gradeMgtLoad();
+					break;
+				case 5:
+					lecMgtLoad();
+					break;
+				case 6:
+					break;
+				}
+			}
+		});
 	}
 
 	private void init() {

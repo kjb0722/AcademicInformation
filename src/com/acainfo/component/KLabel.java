@@ -15,6 +15,7 @@ public class KLabel extends JLabel {
 	}
 
 	private void init() {
+		setSize(150, 25);
 		setFont(new Font("맑은 고딕", Font.BOLD, 14));
 	}
 }

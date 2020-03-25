@@ -44,7 +44,7 @@ public class Controller {
 
 	private void mainLoad() {
 		MainView mainView = new MainView(this);
-		mainView.reloadLogin();
+		mainView.loginLoad();
 	}
 
 	public boolean selectLogin(PassDto dto) {
@@ -129,5 +129,9 @@ public class Controller {
 
 	public ArrayList<GradeDto> selectMemGradeMgt(int num) {
 		return gradeDao.selectMemGradeMgt(num);
+	}
+
+	public boolean updateGrade(GradeDto dto) {
+		return gradeDao.updateGrade(dto);
 	}
 }
