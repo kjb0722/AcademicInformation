@@ -22,7 +22,6 @@ public class Dao {
 			String user = prop.getProperty("user");
 			String password = prop.getProperty("password");
 			con = DriverManager.getConnection(url, user, password);
-			con.setAutoCommit(false);
 			System.out.println("[ DB 접속 성공 ]");
 			return con;
 		} catch (SQLException e) {

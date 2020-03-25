@@ -1,10 +1,10 @@
 package com.acainfo.component;
 
-public class cboItem {
+public class ValueItem {
 	private int value;
 	private String text;
 
-	public cboItem(int value, String text) {
+	public ValueItem(int value, String text) {
 		this.value = value;
 		this.text = text;
 	}

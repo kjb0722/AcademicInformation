@@ -27,6 +27,18 @@ public class MemberDto {
 		this.auth = auth;
 		this.usdate = usdate;
 	}
+	public MemberDto(int num, String name) {
+		this.num = num;
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.addr = addr;
+		this.hagnyeno = hagnyeno;
+		this.del_yn = del_yn;
+		this.auth = auth;
+		this.usdate = usdate;
+	}
 
 	public int getNum() {
 		return num;

@@ -59,7 +59,9 @@ public class DpmMgtView extends KDialog {
 			vec.add(dto.getDel_yn());
 			model.addRow(vec);
 		}
-		table.setRowSelectionInterval(0, 0);
+		if (table.getRowCount() != 0) {
+			table.setRowSelectionInterval(0, 0);
+		}
 	}
 
 	private void listenerInit() {
@@ -93,7 +95,7 @@ public class DpmMgtView extends KDialog {
 		if (controller.deleteDpm(deNum)) {
 			JOptionPane.showMessageDialog(this, "[ 학과 삭제 성공 ]");
 		}
-		
+
 		dpmSrh();
 	}
 

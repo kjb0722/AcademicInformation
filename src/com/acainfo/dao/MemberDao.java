@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.acainfo.controller.DbUtil;
 import com.acainfo.dto.MemberDto;
 
 public class MemberDao extends Dao {
@@ -46,7 +45,7 @@ public class MemberDao extends Dao {
 		ResultSet rs = null;
 		ArrayList<MemberDto> list = null;
 		try {
-			con = DbUtil.conn();
+			con = conn();
 			String sql = "select num,id,name,email,phone,addr,hagnyeno,del_yn,auth,medate from member";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -79,7 +78,8 @@ public class MemberDao extends Dao {
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt2 = null;
 		try {
-			con = DbUtil.conn();
+			con = conn();
+			con.setAutoCommit(false);
 			String sql = "insert into member values(member_num_seq.nextval,?,?,?,?,?,?,'N',?,sysdate)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, dto.getId());
@@ -113,8 +113,8 @@ public class MemberDao extends Dao {
 				System.out.println(e.getMessage());
 			}
 		} finally {
-			DbUtil.dbClose(pstmt);
-			DbUtil.dbClose(con);
+			dbClose(pstmt);
+			dbClose(con);
 		}
 		return false;
 	}
@@ -124,7 +124,7 @@ public class MemberDao extends Dao {
 		ResultSet rs = null;
 		ArrayList<MemberDto> list = null;
 		try {
-			con = DbUtil.conn();
+			con = conn();
 			String sql = "select num,id,name,email,phone,addr,hagnyeno,del_yn,auth,medate from member where auth=? and del_yn='N'";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, pAuth);
@@ -145,6 +145,96 @@ public class MemberDao extends Dao {
 				list.add(new MemberDto(num, id, name, email, phone, addr, hagnyeno, del_yn, auth, medate));
 			}
 			System.out.println("[ selectMemList 성공]");
+			return list;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			dbClose(rs, pstmt, con);
+		}
+		return null;
+	}
+
+	public ArrayList<MemberDto> selectNoneDpmMember() {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<MemberDto> list = null;
+		try {
+			con = conn();
+			String sql = "select m.num,m.name from member m,dpm_member d where m.num=d.num(+) and d.denum is null and m.auth=10 and m.del_yn='N'";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			list = new ArrayList<MemberDto>();
+			while (rs.next()) {
+				int num = rs.getInt("num");
+				String name = rs.getString("name");
+				list.add(new MemberDto(num, name));
+			}
+
+			System.out.println("[ selectNoneDpmMember 성공 ]");
+			return list;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		} finally {
+			dbClose(rs, pstmt, con);
+		}
+	}
+
+	public ArrayList<MemberDto> selectDpmMemList(int denum) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<MemberDto> list = null;
+		try {
+			con = conn();
+			String sql = "select m.num,m.name from member m,dpm_member d where m.num=d.num(+) and d.denum=? and m.del_yn='N'";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, denum);
+			rs = pstmt.executeQuery();
+
+			list = new ArrayList<MemberDto>();
+			while (rs.next()) {
+				int num = rs.getInt("num");
+				String name = rs.getString("name");
+				list.add(new MemberDto(num, name));
+			}
+
+			System.out.println("[ selectNoneDpmMember 성공 ]");
+			return list;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		} finally {
+			dbClose(rs, pstmt, con);
+		}
+	}
+
+	public ArrayList<MemberDto> selectMemDpm(int denum) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<MemberDto> list = null;
+		try {
+			con = conn();
+			String sql = "select m.num,m.id,m.name,m.email,m.phone,m.addr,m.hagnyeno,m.del_yn,m.auth,m.medate from member m, dpm_member d where m.num = d.num and denum=? and del_yn='N'";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, denum);
+			rs = pstmt.executeQuery();
+
+			list = new ArrayList<MemberDto>();
+			while (rs.next()) {
+				int num = rs.getInt("num");
+				String id = rs.getString("id");
+				String name = rs.getString("name");
+				String email = rs.getString("email");
+				String phone = rs.getString("phone");
+				String addr = rs.getString("addr");
+				int hagnyeno = rs.getInt("hagnyeno");
+				String del_yn = rs.getString("del_yn");
+				int auth = rs.getInt("auth");
+				Date medate = rs.getDate("medate");
+				list.add(new MemberDto(num, id, name, email, phone, addr, hagnyeno, del_yn, auth, medate));
+			}
+			System.out.println("[ selectMemDpm 성공]");
 			return list;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

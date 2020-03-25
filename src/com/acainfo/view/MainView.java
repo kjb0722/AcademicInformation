@@ -2,7 +2,6 @@ package com.acainfo.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -23,17 +22,17 @@ import com.acainfo.dto.MemberDto;
 public class MainView extends JFrame {
 	private Controller controller;
 
-//	private MemberDto memberDto;
+	public static MemberDto memberDto;
 
 	private KPanel pnlNorth;
 	private KPanel pnlTitle;
 	private KPanel pnlMemberInfo;
 	private KPanel pnlMenu;
-	private KPanel pnlDepartment;
-	private KPanel pnlLecture;
-	private KPanel pnlGrade;
+	private DpmMemberView pnlDepartment;
+	private LecAppView pnlLecture;
+	private GradeView pnlGrade;
 	private KPanel pnlGradeMgt;
-	private KPanel pnlLectureMgt;
+	private LecMgtView pnlLectureMgt;
 	private KPanel pnlAdmin;
 
 	private KButton btnLogout;
@@ -67,6 +66,8 @@ public class MainView extends JFrame {
 	public MainView(Controller controller) {
 		this.controller = controller;
 
+		memberDtoInit();
+
 		panelInit();
 
 		northInit();
@@ -80,6 +81,10 @@ public class MainView extends JFrame {
 		listenerInit();
 
 		init();
+	}
+
+	private void memberDtoInit() {
+		memberDto = new MemberDto(-1, "", "", "", "", "", -1, "N", -1, null);
 	}
 
 	private void memberInfoInit() {
@@ -157,7 +162,7 @@ public class MainView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Object target = e.getSource();
 				if (target == btnLogout) {
-					loginLoad();
+					reloadLogin();
 				} else if (target == btnClose) {
 					System.exit(0);
 				}
@@ -166,6 +171,26 @@ public class MainView extends JFrame {
 
 		btnLogout.addActionListener(listener);
 		btnClose.addActionListener(listener);
+	}
+
+	public void reloadLogin() {
+		memberDto = null;
+		loginLoad();
+		dpmLoad();
+		lecLoad();
+		lecMgtLoad();
+	}
+	
+	private void lecMgtLoad() {
+		pnlLectureMgt.selectLec();
+	}
+
+	private void lecLoad() {
+		pnlLecture.selectLecAll();
+	}
+
+	private void dpmLoad() {
+		pnlDepartment.selectMemMemDpm();
 	}
 
 	private void northInit() {
@@ -199,15 +224,15 @@ public class MainView extends JFrame {
 
 		pnlMemberInfo = new KPanel();
 
-		pnlDepartment = new KPanel();
+		pnlDepartment = new DpmMemberView(controller);
 
-		pnlLecture = new KPanel();
+		pnlLecture = new LecAppView(controller);
 
-		pnlGrade = new KPanel();
+		//pnlGrade = new GradeView();
 
 		pnlGradeMgt = new KPanel();
 
-		pnlLectureMgt = new KPanel();
+		pnlLectureMgt = new LecMgtView(controller);
 
 		pnlAdmin = new KPanel();
 	}
@@ -232,7 +257,7 @@ public class MainView extends JFrame {
 
 	public void loginLoad() {
 		LoginView loginView = new LoginView(controller);
-		MemberDto memberDto = loginView.getMemberDto();
+		MainView.memberDto = loginView.getMemberDto();
 
 		setMemInfo(memberDto);
 
@@ -242,7 +267,7 @@ public class MainView extends JFrame {
 			removeTabTitle("강의 관리");
 			removeTabTitle("관리자");
 
-			if (memberDto.getAuth() == 20) {
+			if (memberDto.getAuth() == 50) {
 				addTabProf();
 			} else if (memberDto.getAuth() == 99) {
 				addTabProf();
