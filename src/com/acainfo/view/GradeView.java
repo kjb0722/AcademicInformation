@@ -1,6 +1,7 @@
 package com.acainfo.view;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
@@ -29,7 +30,20 @@ public class GradeView extends KPanel {
 	public void selectGrade() {
 		ArrayList<GradeDto> arrayDto = new ArrayList<GradeDto>();
 		int num = MainView.memberDto.getNum();
+		if (num == -1) {
+			return;
+		}
 		arrayDto = controller.selectMemGrade(num);
+
+		for (GradeDto dto : arrayDto) {
+			Vector<Object> vec = new Vector<Object>();
+			vec.add(dto.getLeNum());
+			vec.add(dto.getNum());
+			vec.add(dto.getGrdate());
+			vec.add(dto.getRank());
+			vec.add(dto.getGrdate());
+			model.addRow(vec);
+		}
 	}
 
 	private void tableInit() {

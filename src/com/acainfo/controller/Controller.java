@@ -48,32 +48,30 @@ public class Controller {
 	}
 
 	public boolean selectLogin(PassDto dto) {
-		passDao = new PassDao();
 		return passDao.selectLogin(dto);
 	}
 
 	public MemberDto selectMemInfo(PassDto dto) {
-		memberDao = new MemberDao();
 		return memberDao.selectMemInfo(dto.getId());
 	}
 
 	public ArrayList<MemberDto> selectMemListAll() {
-		memberDao = new MemberDao();
 		return memberDao.selectMemListAll();
 	}
 
 	public boolean insertMember(MemberDto dto, String pass) {
-		memberDao = new MemberDao();
 		return memberDao.insertMember(dto, pass);
 	}
 
 	public ArrayList<MemberDto> selectMemList(int auth) {
-		memberDao = new MemberDao();
 		return memberDao.selectMemList(auth);
+	}
+	
+	public boolean deleteMem(int num) {
+		return memberDao.deleteMem(num);
 	}
 
 	public ArrayList<DpmDto> selectDpmList() {
-		dpmDao = new DpmDao();
 		return dpmDao.selectDpmList();
 	}
 
@@ -127,5 +125,9 @@ public class Controller {
 
 	public ArrayList<GradeDto> selectMemGrade(int num) {
 		return gradeDao.selectMemGrade(num);
+	}
+
+	public ArrayList<GradeDto> selectMemGradeMgt(int num) {
+		return gradeDao.selectMemGradeMgt(num);
 	}
 }

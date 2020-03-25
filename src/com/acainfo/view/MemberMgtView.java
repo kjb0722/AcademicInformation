@@ -24,6 +24,7 @@ public class MemberMgtView extends KDialog {
 	KButton btnProfessor;
 	KButton btnStudent;
 	KButton btnAdd;
+	KButton btnRemove;
 	KButton btnClose;
 
 	KTable table;
@@ -39,12 +40,12 @@ public class MemberMgtView extends KDialog {
 
 		listenerInit();
 
-		memSrh(0);
+		selectMember(0);
 
 		init();
 	}
 
-	private void memSrh(int auth) {
+	private void selectMember(int auth) {
 		model.setNumRows(0);
 
 		ArrayList<MemberDto> list = null;
@@ -81,12 +82,14 @@ public class MemberMgtView extends KDialog {
 			public void actionPerformed(ActionEvent e) {
 				Object target = e.getSource();
 				if (target == btnProfessor) {
-					memSrh(10);
+					selectMember(10);
 				} else if (target == btnStudent) {
-					memSrh(50);
+					selectMember(50);
 				} else if (target == btnAdd) {
 					new MemberAddView(controller);
-					memSrh(0);
+					selectMember(0);
+				} else if (target == btnRemove) {
+					deleteMem();
 				} else if (target == btnClose) {
 					dispose();
 				}
@@ -96,7 +99,21 @@ public class MemberMgtView extends KDialog {
 		btnProfessor.addActionListener(listener);
 		btnStudent.addActionListener(listener);
 		btnAdd.addActionListener(listener);
+		btnRemove.addActionListener(listener);
 		btnClose.addActionListener(listener);
+	}
+
+	private void deleteMem() {
+		if (table.getSelectedRow() == -1) {
+			JOptionPane.showMessageDialog(this, "삭제하실 회원을 선택하세요.");
+			return;
+		}
+
+		int num = (int) model.getValueAt(table.getSelectedRow(), 0);
+		if (controller.deleteMem(num)) {
+			JOptionPane.showMessageDialog(this, "[ 회원 삭제 성공 ]");
+			selectMember(0);
+		}
 	}
 
 	private void tableInit() {
@@ -123,8 +140,12 @@ public class MemberMgtView extends KDialog {
 		pnlMenu.add(btnStudent);
 
 		btnAdd = new KButton("추가");
-		btnAdd.setLocation(670, 10);
+		btnAdd.setLocation(550, 10);
 		pnlMenu.add(btnAdd);
+
+		btnRemove = new KButton("삭제");
+		btnRemove.setLocation(670, 10);
+		pnlMenu.add(btnRemove);
 
 		btnClose = new KButton("닫기");
 		btnClose.setLocation(790, 10);

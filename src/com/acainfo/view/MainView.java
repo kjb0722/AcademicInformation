@@ -31,7 +31,7 @@ public class MainView extends JFrame {
 	private DpmMemberView pnlDepartment;
 	private LecAppView pnlLecture;
 	private GradeView pnlGrade;
-	private KPanel pnlGradeMgt;
+	private GradeMgtView pnlGradeMgt;
 	private LecMgtView pnlLectureMgt;
 	private KPanel pnlAdmin;
 
@@ -179,8 +179,18 @@ public class MainView extends JFrame {
 		dpmLoad();
 		lecLoad();
 		lecMgtLoad();
+		gradeLoad();
+		gradeMgtLoad();
 	}
 	
+	private void gradeMgtLoad() {
+		pnlGradeMgt.selectGradeMgt();
+	}
+	
+	private void gradeLoad() {
+		pnlGrade.selectGrade();
+	}
+
 	private void lecMgtLoad() {
 		pnlLectureMgt.selectLec();
 	}
@@ -228,9 +238,9 @@ public class MainView extends JFrame {
 
 		pnlLecture = new LecAppView(controller);
 
-		//pnlGrade = new GradeView();
+		pnlGrade = new GradeView(controller);
 
-		pnlGradeMgt = new KPanel();
+		pnlGradeMgt = new GradeMgtView(controller);
 
 		pnlLectureMgt = new LecMgtView(controller);
 
@@ -273,6 +283,8 @@ public class MainView extends JFrame {
 				addTabProf();
 				addTabAdmin();
 			}
+
+			tab.setSelectedIndex(0);
 		}
 	}
 

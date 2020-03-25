@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import com.acainfo.component.KButton;
 import com.acainfo.component.KDialog;
 import com.acainfo.component.KLabel;
+import com.acainfo.component.KNumField;
 import com.acainfo.component.KPanel;
 import com.acainfo.controller.Controller;
 import com.acainfo.dto.MemberDto;
@@ -31,7 +32,7 @@ public class MemberAddView extends KDialog {
 
 	private JTextField txtId;
 	private JPasswordField txtPass;
-	private JTextField txtHagnyeno;
+	private KNumField txtHagnyeno;
 	private JTextField txtName;
 	private JTextField txtEmail;
 	private JTextField txtPhone;
@@ -153,7 +154,7 @@ public class MemberAddView extends KDialog {
 		lblHagnyeno.setBounds(50, 110, 100, 30);
 		pnlMemberInfo.add(lblHagnyeno);
 
-		txtHagnyeno = new JTextField();
+		txtHagnyeno = new KNumField();
 		txtHagnyeno.setBounds(120, 115, 100, 25);
 		pnlMemberInfo.add(txtHagnyeno);
 

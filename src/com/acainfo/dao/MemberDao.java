@@ -46,7 +46,7 @@ public class MemberDao extends Dao {
 		ArrayList<MemberDto> list = null;
 		try {
 			con = conn();
-			String sql = "select num,id,name,email,phone,addr,hagnyeno,del_yn,auth,medate from member";
+			String sql = "select num,id,name,email,phone,addr,hagnyeno,del_yn,auth,medate from member where del_yn='N'";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
@@ -100,7 +100,7 @@ public class MemberDao extends Dao {
 			pstmt2.setString(2, pass);
 			int n2 = pstmt2.executeUpdate();
 			if (n2 > 0) {
-				System.out.println("[ insertMember pass 성공 ]");
+				System.out.println("[ insertMember(2) pass 성공 ]");
 				con.commit();
 				return true;
 			}
@@ -113,8 +113,8 @@ public class MemberDao extends Dao {
 				System.out.println(e.getMessage());
 			}
 		} finally {
-			dbClose(pstmt);
-			dbClose(con);
+			dbClose(pstmt2);
+			dbClose(null, pstmt, con);
 		}
 		return false;
 	}
@@ -242,5 +242,42 @@ public class MemberDao extends Dao {
 			dbClose(rs, pstmt, con);
 		}
 		return null;
+	}
+
+	public boolean deleteMem(int num) {
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		try {
+			con = conn();
+			con.setAutoCommit(false);
+			String sql = "update member set del_yn='Y' where num=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			int n = pstmt.executeUpdate();
+			if (n > 0) {
+				System.out.println("[ deleteMem member 성공 ]");
+			}
+
+			String sql2 = "update pass set del_yn='Y' where num=?";
+			pstmt2 = con.prepareStatement(sql2);
+			pstmt2.setInt(1, num);
+			int n2 = pstmt2.executeUpdate();
+			if (n2 > 0) {
+				System.out.println("[ deleteMem(2) pass 성공 ]");
+				con.commit();
+				return true;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				System.out.println(e1.getMessage());
+			}
+		} finally {
+			dbClose(pstmt2);
+			dbClose(null, pstmt, con);
+		}
+		return false;
 	}
 }

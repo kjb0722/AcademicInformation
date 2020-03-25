@@ -92,6 +92,9 @@ public class LoginView extends KDialog {
 			dispose();
 		} else {
 			JOptionPane.showMessageDialog(this, "아이디 혹은 비밀번호가 틀렸습니다.");
+			txtPw.setText("");
+			txtId.setText("");
+			txtId.requestFocus();
 			return;
 		}
 	}
