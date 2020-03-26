@@ -14,7 +14,7 @@ public class GradeDao extends Dao {
 		ResultSet rs = null;
 		try {
 			con = conn();
-			String sql = "select grnum,lenum,num,score,rank,del_yn,grdate from grade where num=?";
+			String sql = "select grnum,lenum,num,score,rank,del_yn,grdate from grade where num=? and del_yn='N'";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, pNum);
 			rs = pstmt.executeQuery();
