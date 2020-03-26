@@ -2,6 +2,9 @@ package com.acainfo.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -59,6 +62,19 @@ public class LecMgtView extends KPanel {
 		txtLecName = new JTextField();
 		txtLecName.setBounds(10, 10, 100, 25);
 		add(txtLecName);
+
+		txtListener();
+	}
+
+	private void txtListener() {
+		txtLecName.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btnAdd.doClick();
+				}
+			}
+		});
 	}
 
 	private void btnInit() {

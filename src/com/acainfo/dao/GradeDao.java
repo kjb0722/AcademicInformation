@@ -93,4 +93,23 @@ public class GradeDao extends Dao {
 		return false;
 	}
 
+	public boolean deleteGradeNum(int pNum) {
+		PreparedStatement pstmt = null;
+		try {
+			con = conn();
+			String sql = "update grade set del_yn='Y' where num=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, pNum);
+			int n = pstmt.executeUpdate();
+			if (n > 0) {
+				System.out.println("[ deleteGradeNum 성공 ]");
+				return true;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			dbClose(null, pstmt, con);
+		}
+		return false;
+	}
 }

@@ -51,4 +51,22 @@ public class DpmMemDao extends Dao {
 		}
 		return false;
 	}
+
+	public boolean deleteDpmMemNum(int pNum) {
+		PreparedStatement pstmt = null;
+		try {
+			con = conn();
+			String sql = "delete from dpm_member where num=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, pNum);
+			int n = pstmt.executeUpdate();
+			System.out.println("[ delInsDpmMem " + n + "건 삭제 성공 ]");
+			return true;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			dbClose(null, pstmt, con);
+		}
+		return false;
+	}
 }

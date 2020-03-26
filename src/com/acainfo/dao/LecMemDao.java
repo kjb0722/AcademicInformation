@@ -94,4 +94,24 @@ public class LecMemDao extends Dao {
 		return false;
 	}
 
+	public boolean deleteLecMemNum(int pNum) {
+		PreparedStatement pstmt = null;
+		try {
+			con = conn();
+			String sql = "update lec_member set del_yn='Y' where num=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, pNum);
+			int n = pstmt.executeUpdate();
+			if (n > 0) {
+				System.out.println("[ deleteLecMemNum 성공]");
+				return true;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			dbClose(null, pstmt, con);
+		}
+		return false;
+	}
+
 }

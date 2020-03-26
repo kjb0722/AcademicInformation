@@ -272,6 +272,19 @@ public class MemberDao extends Dao {
 		try {
 			con = conn();
 			con.setAutoCommit(false);
+
+			LectureDao lecDao = new LectureDao();
+			LecMemDao lecMemDao = new LecMemDao();
+			DpmDao dpmDao = new DpmDao();
+			DpmMemDao dpmMemDao = new DpmMemDao();
+			GradeDao gradeDao = new GradeDao();
+
+			lecDao.deleteLecNum(pNum);
+			lecMemDao.deleteLecMemNum(pNum);
+			dpmDao.deleteDpmNum(pNum);
+			dpmMemDao.deleteDpmMemNum(pNum);
+			gradeDao.selectMemGrade(pNum);
+
 			String sql = "update member set del_yn='Y' where num=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, pNum);

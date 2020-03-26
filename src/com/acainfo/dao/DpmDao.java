@@ -68,19 +68,20 @@ public class DpmDao extends Dao {
 		try {
 			con = conn();
 			con.setAutoCommit(false);
-			String sql = "update department set del_yn='Y' where denum=?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, pDeNum);
-			int n = pstmt.executeUpdate();
-			if (n > 0) {
-				System.out.println("[ deleteDpm department 성공 ]");
-			}
 			String sql2 = "delete from dpm_member where denum=?";
 			pstmt2 = con.prepareStatement(sql2);
 			pstmt2.setInt(1, pDeNum);
 			int n2 = pstmt2.executeUpdate();
 			if (n2 > 0) {
-				System.out.println("[ deleteDpm(2) dpm_member 성공 ]");
+				System.out.println("[ deleteDpm dpm_member 성공 ]");
+			}
+
+			String sql = "update department set del_yn='Y' where denum=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, pDeNum);
+			int n = pstmt.executeUpdate();
+			if (n > 0) {
+				System.out.println("[ deleteDpm(2) department 성공 ]");
 				con.commit();
 				return true;
 			}
@@ -93,6 +94,26 @@ public class DpmDao extends Dao {
 			}
 		} finally {
 			dbClose(pstmt2);
+			dbClose(null, pstmt, con);
+		}
+		return false;
+	}
+
+	public boolean deleteDpmNum(int pNum) {
+		PreparedStatement pstmt = null;
+		try {
+			con = conn();
+			String sql = "update department set del_yn='Y' where num=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, pNum);
+			int n = pstmt.executeUpdate();
+			if (n > 0) {
+				System.out.println("[ deleteDpmNum 성공 ]");
+				return true;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
 			dbClose(null, pstmt, con);
 		}
 		return false;
