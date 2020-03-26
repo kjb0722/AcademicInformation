@@ -31,12 +31,12 @@ public class MemberAddView extends KDialog {
 
 	private JTextField txtId;
 	private JPasswordField txtPass;
-	private KNumField txtHagnyeno;
 	private JTextField txtName;
 	private JTextField txtEmail;
 	private JTextField txtPhone;
 	private JTextField txtAddr;
 
+	private JComboBox<Integer> cboHagnyeno;
 	private JComboBox<ValueItem> cboAuth;
 
 	public MemberAddView(Controller controller) {
@@ -91,10 +91,6 @@ public class MemberAddView extends KDialog {
 			JOptionPane.showMessageDialog(this, "주소를 입력하세요.");
 			return;
 		}
-		if (txtHagnyeno.getText().equals("")) {
-			JOptionPane.showMessageDialog(this, "학년을 입력하세요.");
-			return;
-		}
 
 		String id = txtId.getText();
 		String pass = String.valueOf(txtPass.getPassword());
@@ -102,7 +98,7 @@ public class MemberAddView extends KDialog {
 		String email = txtEmail.getText();
 		String phone = txtPhone.getText();
 		String addr = txtAddr.getText();
-		int hagnyeno = Integer.parseInt(txtHagnyeno.getText());
+		int hagnyeno = (int) cboHagnyeno.getSelectedItem();
 		int auth = ((ValueItem) cboAuth.getSelectedItem()).getValue();
 		MemberDto dto = new MemberDto(-1, id, name, email, phone, addr, hagnyeno, "Y", auth, null);
 		int n = controller.insertMember(dto, pass);
@@ -146,10 +142,6 @@ public class MemberAddView extends KDialog {
 		lblHagnyeno.setBounds(50, 110, 100, 30);
 		add(lblHagnyeno);
 
-		txtHagnyeno = new KNumField();
-		txtHagnyeno.setBounds(120, 115, 100, 25);
-		add(txtHagnyeno);
-
 		lblName = new KLabel("이름 : ");
 		lblName.setBounds(50, 150, 100, 30);
 		add(lblName);
@@ -187,16 +179,22 @@ public class MemberAddView extends KDialog {
 		lblAuth.setBounds(50, 310, 100, 30);
 		add(lblAuth);
 
+		cboHagnyeno = new JComboBox<Integer>();
+		cboHagnyeno.setBounds(120, 115, 100, 25);
+		int hang[] = { 1, 2, 3, 4 };
+		for (int i : hang) {
+			cboHagnyeno.addItem(i);
+		}
+		add(cboHagnyeno);
+
 		cboAuth = new JComboBox<ValueItem>();
 		cboAuth.setBounds(120, 315, 100, 25);
-
 		ValueItem vi = new ValueItem(10, "학생");
 		ValueItem vi2 = new ValueItem(50, "교수");
 		ValueItem vi3 = new ValueItem(99, "관리자");
 		cboAuth.addItem(vi);
 		cboAuth.addItem(vi2);
 		cboAuth.addItem(vi3);
-
 		add(cboAuth);
 
 		btnAdd = new KButton("저장");

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -72,6 +73,10 @@ public class DpmMemberView extends KPanel {
 			int deNum = dto.getDenum();
 			String name = dto.getName();
 			cboDpm.addItem(new ValueItem(deNum, name));
+		}
+		
+		if(cboDpm.getItemCount() == 0) {
+			JOptionPane.showMessageDialog(this, "학과가 지정되지 않았습니다.");
 		}
 	}
 

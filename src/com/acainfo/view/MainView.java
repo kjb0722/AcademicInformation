@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
@@ -77,7 +78,11 @@ public class MainView extends JFrame {
 				if (target == btnLogout) {
 					reloadLogin();
 				} else if (target == btnClose) {
-					System.exit(0);
+					int result = JOptionPane.showConfirmDialog(MainView.this, "프로그램을 종료하시겠습니까?", "[종료]",
+							JOptionPane.YES_NO_OPTION);
+					if (result == JOptionPane.YES_OPTION) {
+						System.exit(0);
+					}
 				}
 			}
 		};
