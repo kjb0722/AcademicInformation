@@ -42,7 +42,7 @@ public class DpmMgtView extends KDialog {
 
 		listenerInit();
 
-		// selectDpm();
+		selectDpm();
 
 		init();
 	}
@@ -59,6 +59,7 @@ public class DpmMgtView extends KDialog {
 			vec.add(dto.getDel_yn());
 			model.addRow(vec);
 		}
+
 		if (table.getRowCount() != 0) {
 			table.setRowSelectionInterval(0, 0);
 		}
@@ -110,7 +111,6 @@ public class DpmMgtView extends KDialog {
 			txtDpmName.requestFocus();
 			selectDpm();
 		}
-
 	}
 
 	private void tableInit() {

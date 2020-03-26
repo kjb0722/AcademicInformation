@@ -32,8 +32,6 @@ public class LecAppView extends KPanel {
 		btnInit();
 
 		tableInit();
-
-		//selectLecAll();
 	}
 
 	public void selectLecAll() {
@@ -45,7 +43,7 @@ public class LecAppView extends KPanel {
 			vec.add(dto.getLeNum());
 			vec.add(dto.getLec_mem());
 			vec.add(dto.getName());
-			vec.add(dto.getLec_yn());
+			vec.add(dto.getLec_yn().equals("Y") ? "수강중" : "");
 			model.addRow(vec);
 		}
 	}
@@ -61,11 +59,11 @@ public class LecAppView extends KPanel {
 	}
 
 	private void btnInit() {
-		btnAdd = new KButton("수강 추가");
+		btnAdd = new KButton("수강 신청");
 		btnAdd.setLocation(10, 10);
 		add(btnAdd);
 
-		btnRemove = new KButton("취소");
+		btnRemove = new KButton("수강 취소");
 		btnRemove.setLocation(130, 10);
 		add(btnRemove);
 
@@ -94,7 +92,7 @@ public class LecAppView extends KPanel {
 			return;
 		}
 
-		if (model.getValueAt(table.getSelectedRow(), 3).equals("N")) {
+		if (model.getValueAt(table.getSelectedRow(), 3).equals("")) {
 			JOptionPane.showMessageDialog(this, "추가한 강의가 아닙니다.");
 			return;
 		}
@@ -113,7 +111,7 @@ public class LecAppView extends KPanel {
 			return;
 		}
 
-		if (model.getValueAt(table.getSelectedRow(), 3).equals("Y")) {
+		if (model.getValueAt(table.getSelectedRow(), 3).equals("수강중")) {
 			JOptionPane.showMessageDialog(this, "이미 수강한 강의입니다.");
 			return;
 		}

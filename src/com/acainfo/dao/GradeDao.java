@@ -14,20 +14,21 @@ public class GradeDao extends Dao {
 		ResultSet rs = null;
 		try {
 			con = conn();
-			String sql = "select lenum,num,score,rank,del_yn,grdate from grade where num=?";
+			String sql = "select grnum,lenum,num,score,rank,del_yn,grdate from grade where num=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, pNum);
 			rs = pstmt.executeQuery();
 
 			ArrayList<GradeDto> list = new ArrayList<GradeDto>();
 			while (rs.next()) {
+				int grNum = rs.getInt("grnum");
 				int leNum = rs.getInt("lenum");
 				int num = rs.getInt("num");
 				int score = rs.getInt("score");
 				String rank = rs.getString("rank");
 				String del_yn = rs.getString("del_yn");
 				Date grdate = rs.getDate("grdate");
-				list.add(new GradeDto(leNum, num, score, rank, del_yn, grdate));
+				list.add(new GradeDto(grNum, leNum, num, score, rank, del_yn, grdate));
 			}
 			System.out.println("[ selectMemGrade 성공 ]");
 			return list;
@@ -44,20 +45,21 @@ public class GradeDao extends Dao {
 		ResultSet rs = null;
 		try {
 			con = conn();
-			String sql = "select lenum,num,score,rank,del_yn,grdate from grade where lenum in(select lenum from lecture where num=?)";
+			String sql = "select grnum,lenum,num,score,rank,del_yn,grdate from grade where lenum in(select lenum from lecture where num=?)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, pNum);
 			rs = pstmt.executeQuery();
 
 			ArrayList<GradeDto> list = new ArrayList<GradeDto>();
 			while (rs.next()) {
+				int grNum = rs.getInt("grNum");
 				int leNum = rs.getInt("lenum");
 				int num = rs.getInt("num");
 				int score = rs.getInt("score");
 				String rank = rs.getString("rank");
 				String del_yn = rs.getString("del_yn");
 				Date grdate = rs.getDate("grdate");
-				list.add(new GradeDto(leNum, num, score, rank, del_yn, grdate));
+				list.add(new GradeDto(grNum, leNum, num, score, rank, del_yn, grdate));
 			}
 			System.out.println("[ selectMemGradeMgt 성공 ]");
 			return list;
@@ -73,12 +75,11 @@ public class GradeDao extends Dao {
 		PreparedStatement pstmt = null;
 		try {
 			con = conn();
-			String sql = "update grade set score=?,rank=?,grdate=sysdate where lenum=? and num=?";
+			String sql = "update grade set score=?,rank=?,grdate=sysdate where grnum=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, pDto.getScore());
 			pstmt.setString(2, pDto.getRank());
-			pstmt.setInt(3, pDto.getLeNum());
-			pstmt.setInt(4, pDto.getNum());
+			pstmt.setInt(3, pDto.getGrNum());
 			int n = pstmt.executeUpdate();
 			if (n > 0) {
 				System.out.println("[ updateGrade 성공 ]");

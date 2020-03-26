@@ -1,15 +1,11 @@
 package com.acainfo.view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -34,17 +30,19 @@ public class DpmMemberView extends KPanel {
 		cboInit();
 
 		tableInit();
-
-		// selectDpmList();
-
-		// selectMemMemDpm();
 	}
 
 	public void selectMemMemDpm() {
 		model.setNumRows(0);
 
 		ArrayList<MemberDto> list = null;
+
 		ValueItem vi = (ValueItem) cboDpm.getSelectedItem();
+
+		if(vi == null) {
+			return;
+		}
+		
 		list = controller.selectMemDpm(vi.getValue());
 		if (list == null) {
 			return;
@@ -69,7 +67,7 @@ public class DpmMemberView extends KPanel {
 	public void selectDpmList() {
 		cboDpm.removeAllItems();
 
-		ArrayList<DpmDto> dpmDto = controller.selectDpmList();
+		ArrayList<DpmDto> dpmDto = controller.selectDpmList(MainView.memberDto.getNum());
 		for (DpmDto dto : dpmDto) {
 			int deNum = dto.getDenum();
 			String name = dto.getName();

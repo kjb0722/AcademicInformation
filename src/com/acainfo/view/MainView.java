@@ -141,7 +141,7 @@ public class MainView extends JFrame {
 		pnlMenu.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		pnlNorth.add(pnlMenu);
 
-		pnlMemberInfo = new MemberInfo(controller);
+		pnlMemberInfo = new MemberInfo(controller, this);
 
 		pnlDepartment = new DpmMemberView(controller);
 
@@ -225,6 +225,10 @@ public class MainView extends JFrame {
 
 			tab.setSelectedIndex(0);
 		}
+	}
+
+	public void setLblStatus(String text) {
+		lblStatus.setText("[ " + text + " ]");
 	}
 
 	private void addTabProf() {

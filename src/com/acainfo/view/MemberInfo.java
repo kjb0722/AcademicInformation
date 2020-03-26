@@ -15,6 +15,8 @@ import com.acainfo.dto.MemberDto;
 public class MemberInfo extends KPanel {
 	Controller controller;
 
+	MainView main;
+
 	MemberDto dto;
 
 	private KLabel lblId;
@@ -38,8 +40,9 @@ public class MemberInfo extends KPanel {
 	private KButton btnSave;
 	private KButton btnInit;
 
-	public MemberInfo(Controller controller) {
+	public MemberInfo(Controller controller, MainView main) {
 		this.controller = controller;
+		this.main = main;
 
 		lblInit();
 
@@ -88,6 +91,7 @@ public class MemberInfo extends KPanel {
 		if (controller.updateMemInfo(dto)) {
 			JOptionPane.showMessageDialog(this, "[ 수정 성공 ]");
 			setMemInfo(dto);
+			main.setLblStatus(name);
 		} else {
 			JOptionPane.showMessageDialog(this, "[ 수정 실패 ]");
 		}

@@ -21,7 +21,7 @@ public class LecMemDao extends Dao {
 				System.out.println("[ insertLecMem lec_member 성공]");
 			}
 
-			String sql2 = "insert into grade values(?,?,null,null,'N',sysdate)";
+			String sql2 = "insert into grade values(gr_grnum_seq.nextval,?,?,null,null,'N',sysdate)";
 			pstmt2 = con.prepareStatement(sql2);
 			pstmt2.setInt(1, pDto.getLeNum());
 			pstmt2.setInt(2, pDto.getNum());
@@ -39,13 +39,13 @@ public class LecMemDao extends Dao {
 				System.out.println(e1.getMessage());
 			}
 		} finally {
-			dbClose(pstmt2);
-			dbClose(null, pstmt, con);
 			try {
 				con.setAutoCommit(true);
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
+			dbClose(pstmt2);
+			dbClose(null, pstmt, con);
 		}
 		return false;
 	}
@@ -66,10 +66,10 @@ public class LecMemDao extends Dao {
 			}
 
 			String sql2 = "update grade set del_yn='Y' where lenum=? and num=?";
-			pstmt2 = con.prepareStatement(sql);
+			pstmt2 = con.prepareStatement(sql2);
 			pstmt2.setInt(1, pDto.getLeNum());
 			pstmt2.setInt(2, pDto.getNum());
-			int n2 = pstmt.executeUpdate();
+			int n2 = pstmt2.executeUpdate();
 			if (n2 > 0) {
 				System.out.println("[ deleteLecMem(2) grade 성공]");
 				con.commit();
@@ -83,13 +83,13 @@ public class LecMemDao extends Dao {
 				System.out.println(e1.getMessage());
 			}
 		} finally {
-			dbClose(pstmt2);
-			dbClose(null, pstmt, con);
 			try {
 				con.setAutoCommit(true);
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
+			dbClose(pstmt2);
+			dbClose(null, pstmt, con);
 		}
 		return false;
 	}

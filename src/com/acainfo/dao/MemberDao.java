@@ -130,6 +130,11 @@ public class MemberDao extends Dao {
 				System.out.println(e.getMessage());
 			}
 		} finally {
+			try {
+				con.setAutoCommit(true);
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 			dbClose(pstmt2);
 			dbClose(null, pstmt, con);
 		}

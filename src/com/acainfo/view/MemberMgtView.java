@@ -82,9 +82,9 @@ public class MemberMgtView extends KDialog {
 			public void actionPerformed(ActionEvent e) {
 				Object target = e.getSource();
 				if (target == btnProfessor) {
-					selectMember(10);
-				} else if (target == btnStudent) {
 					selectMember(50);
+				} else if (target == btnStudent) {
+					selectMember(10);
 				} else if (target == btnAdd) {
 					new MemberAddView(controller);
 					selectMember(0);

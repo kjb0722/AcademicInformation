@@ -72,7 +72,11 @@ public class Controller {
 	}
 
 	public ArrayList<DpmDto> selectDpmList() {
-		return dpmDao.selectDpmList();
+		return dpmDao.selectDpmList(-1);
+	}
+	
+	public ArrayList<DpmDto> selectDpmList(int num) {
+		return dpmDao.selectDpmList(num);
 	}
 
 	public boolean insertDpm(String dpmName) {

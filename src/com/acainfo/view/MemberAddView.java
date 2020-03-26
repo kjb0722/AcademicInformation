@@ -12,7 +12,7 @@ import com.acainfo.component.KButton;
 import com.acainfo.component.KDialog;
 import com.acainfo.component.KLabel;
 import com.acainfo.component.KNumField;
-import com.acainfo.component.KPanel;
+import com.acainfo.component.ValueItem;
 import com.acainfo.controller.Controller;
 import com.acainfo.dto.MemberDto;
 
@@ -37,9 +37,7 @@ public class MemberAddView extends KDialog {
 	private JTextField txtPhone;
 	private JTextField txtAddr;
 
-	private JComboBox<Integer> cboAuth;
-
-	private Integer authList[] = { 10, 50, 99 };
+	private JComboBox<ValueItem> cboAuth;
 
 	public MemberAddView(Controller controller) {
 		super(controller);
@@ -105,16 +103,16 @@ public class MemberAddView extends KDialog {
 		String phone = txtPhone.getText();
 		String addr = txtAddr.getText();
 		int hagnyeno = Integer.parseInt(txtHagnyeno.getText());
-		int auth = (int) cboAuth.getSelectedItem();
+		int auth = ((ValueItem) cboAuth.getSelectedItem()).getValue();
 		MemberDto dto = new MemberDto(-1, id, name, email, phone, addr, hagnyeno, "Y", auth, null);
 		int n = controller.insertMember(dto, pass);
 		if (n == 1) {
 			JOptionPane.showMessageDialog(this, "[ 회원 추가 성공 ]");
 			dispose();
-		} else if (n == -1) {
+		} else if (n == 0) {
 			JOptionPane.showMessageDialog(this, "[ 회원 추가 실패 ]");
 			return;
-		} else if (n == 0) {
+		} else if (n == -1) {
 			JOptionPane.showMessageDialog(this, "[ 아이디 중복 ]");
 			return;
 		}
@@ -189,11 +187,16 @@ public class MemberAddView extends KDialog {
 		lblAuth.setBounds(50, 310, 100, 30);
 		add(lblAuth);
 
-		cboAuth = new JComboBox<Integer>();
+		cboAuth = new JComboBox<ValueItem>();
 		cboAuth.setBounds(120, 315, 100, 25);
-		for (int i = 0; i < authList.length; i++) {
-			cboAuth.addItem(authList[i]);
-		}
+
+		ValueItem vi = new ValueItem(10, "학생");
+		ValueItem vi2 = new ValueItem(50, "교수");
+		ValueItem vi3 = new ValueItem(99, "관리자");
+		cboAuth.addItem(vi);
+		cboAuth.addItem(vi2);
+		cboAuth.addItem(vi3);
+
 		add(cboAuth);
 
 		btnAdd = new KButton("저장");

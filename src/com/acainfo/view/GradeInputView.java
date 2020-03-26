@@ -156,7 +156,7 @@ public class GradeInputView extends KDialog {
 		int score = Integer.parseInt(txtScore.getText());
 		String rank = (String) cboRank.getSelectedItem();
 		System.out.println(rank);
-		GradeDto dto = new GradeDto(leNum, num, score, rank, "N", null);
+		GradeDto dto = new GradeDto(gradeDto.getGrNum(), leNum, num, score, rank, "N", null);
 		if (controller.updateGrade(dto)) {
 			JOptionPane.showMessageDialog(this, "[ 점수 저장 완료 ]");
 			dispose();

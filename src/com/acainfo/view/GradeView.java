@@ -23,11 +23,11 @@ public class GradeView extends KPanel {
 		this.controller = controller;
 
 		tableInit();
-
-		//selectGrade();
 	}
 
 	public void selectGrade() {
+		model.setNumRows(0);
+		
 		ArrayList<GradeDto> arrayDto = new ArrayList<GradeDto>();
 		int num = MainView.memberDto.getNum();
 		if (num == -1) {

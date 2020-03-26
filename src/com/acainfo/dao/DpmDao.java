@@ -8,14 +8,20 @@ import java.util.ArrayList;
 import com.acainfo.dto.DpmDto;
 
 public class DpmDao extends Dao {
-	public ArrayList<DpmDto> selectDpmList() {
+	public ArrayList<DpmDto> selectDpmList(int pNum) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<DpmDto> list = null;
 		try {
 			con = conn();
-			String sql = "select denum,name,del_yn from department where del_yn='N'";
-			pstmt = con.prepareStatement(sql);
+			if (pNum == -1) {
+				String sql = "select denum,name,del_yn from department where del_yn='N'";
+				pstmt = con.prepareStatement(sql);
+			} else {
+				String sql = "select denum,name,del_yn from department where denum in(select denum from dpm_member where num=?) and del_yn='N'";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, pNum);
+			}
 			rs = pstmt.executeQuery();
 
 			list = new ArrayList<DpmDto>();

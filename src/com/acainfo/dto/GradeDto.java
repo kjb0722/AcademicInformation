@@ -3,6 +3,7 @@ package com.acainfo.dto;
 import java.util.Date;
 
 public class GradeDto {
+	private int grNum;
 	private int leNum;
 	private int num;
 	private int score;
@@ -10,13 +11,22 @@ public class GradeDto {
 	private String del_yn;
 	private Date grdate;
 
-	public GradeDto(int leNum, int num, int score, String rank, String del_yn, Date grdate) {
+	public GradeDto(int grNum, int leNum, int num, int score, String rank, String del_yn, Date grdate) {
+		this.grNum = grNum;
 		this.leNum = leNum;
 		this.num = num;
 		this.score = score;
 		this.rank = rank;
 		this.del_yn = del_yn;
 		this.grdate = grdate;
+	}
+
+	public int getGrNum() {
+		return grNum;
+	}
+
+	public void setGrNum(int grNum) {
+		this.grNum = grNum;
 	}
 
 	public int getLeNum() {
