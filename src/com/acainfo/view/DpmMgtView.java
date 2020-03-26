@@ -42,12 +42,12 @@ public class DpmMgtView extends KDialog {
 
 		listenerInit();
 
-		dpmSrh();
+		// selectDpm();
 
 		init();
 	}
 
-	private void dpmSrh() {
+	private void selectDpm() {
 		model.setNumRows(0);
 
 		ArrayList<DpmDto> list = controller.selectDpmList();
@@ -96,7 +96,7 @@ public class DpmMgtView extends KDialog {
 			JOptionPane.showMessageDialog(this, "[ 학과 삭제 성공 ]");
 		}
 
-		dpmSrh();
+		selectDpm();
 	}
 
 	private void insertDpm() {
@@ -108,7 +108,7 @@ public class DpmMgtView extends KDialog {
 			JOptionPane.showMessageDialog(this, "[ 학과 추가 성공 ]");
 			txtDpmName.setText("");
 			txtDpmName.requestFocus();
-			dpmSrh();
+			selectDpm();
 		}
 
 	}

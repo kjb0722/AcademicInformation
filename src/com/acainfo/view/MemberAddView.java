@@ -107,11 +107,15 @@ public class MemberAddView extends KDialog {
 		int hagnyeno = Integer.parseInt(txtHagnyeno.getText());
 		int auth = (int) cboAuth.getSelectedItem();
 		MemberDto dto = new MemberDto(-1, id, name, email, phone, addr, hagnyeno, "Y", auth, null);
-		if (controller.insertMember(dto, pass)) {
+		int n = controller.insertMember(dto, pass);
+		if (n == 1) {
 			JOptionPane.showMessageDialog(this, "[ 회원 추가 성공 ]");
 			dispose();
-		} else {
+		} else if (n == -1) {
 			JOptionPane.showMessageDialog(this, "[ 회원 추가 실패 ]");
+			return;
+		} else if (n == 0) {
+			JOptionPane.showMessageDialog(this, "[ 아이디 중복 ]");
 			return;
 		}
 	}

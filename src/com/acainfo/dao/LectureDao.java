@@ -9,14 +9,14 @@ import com.acainfo.dto.LectureDto;
 
 public class LectureDao extends Dao {
 
-	public ArrayList<LectureDto> selectLecYN(int num) {
+	public ArrayList<LectureDto> selectLecYN(int pNum) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			con = conn();
 			String sql = "select l.lenum,(select name from member where l.num=num) 교수,l.name,nvl((select 'Y' from lec_member where l.lenum=lenum and num=? and del_yn='N'),'N') 수강여부 from lecture l where del_yn = 'N'";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, num);
+			pstmt.setInt(1, pNum);
 			rs = pstmt.executeQuery();
 
 			ArrayList<LectureDto> list = new ArrayList<LectureDto>();
@@ -40,14 +40,14 @@ public class LectureDao extends Dao {
 		return null;
 	}
 
-	public boolean insertLec(LectureDto dto) {
+	public boolean insertLec(LectureDto pDto) {
 		PreparedStatement pstmt = null;
 		try {
 			con = conn();
 			String sql = "insert into lecture values(lec_lenum_seq.nextval,?,?,'N')";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, dto.getNum());
-			pstmt.setString(2, dto.getName());
+			pstmt.setInt(1, pDto.getNum());
+			pstmt.setString(2, pDto.getName());
 			int n = pstmt.executeUpdate();
 			if (n > 0) {
 				System.out.println("[ insertLec 성공 ]");
@@ -61,13 +61,14 @@ public class LectureDao extends Dao {
 		return false;
 	}
 
-	public ArrayList<LectureDto> selectLec() {
+	public ArrayList<LectureDto> selectLec(int pNum) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			con = conn();
-			String sql = "select l.lenum,l.name,l.num,(select name from member where num=l.num) 교수 from lecture l where del_yn='N'";
+			String sql = "select l.lenum,l.name,l.num,(select name from member where num=l.num) 교수 from lecture l where num = ? and del_yn='N'";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, pNum);
 			rs = pstmt.executeQuery();
 
 			ArrayList<LectureDto> list = new ArrayList<LectureDto>();
@@ -90,13 +91,13 @@ public class LectureDao extends Dao {
 		return null;
 	}
 
-	public boolean deleteLec(int lenum) {
+	public boolean deleteLec(int pLenum) {
 		PreparedStatement pstmt = null;
 		try {
 			con = conn();
 			String sql = "update lecture set del_yn='Y' where lenum=?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, lenum);
+			pstmt.setInt(1, pLenum);
 			int n = pstmt.executeUpdate();
 			if (n > 0) {
 				System.out.println("[ deleteLec 성공 ]");

@@ -59,7 +59,7 @@ public class Controller {
 		return memberDao.selectMemListAll();
 	}
 
-	public boolean insertMember(MemberDto dto, String pass) {
+	public int insertMember(MemberDto dto, String pass) {
 		return memberDao.insertMember(dto, pass);
 	}
 
@@ -115,8 +115,8 @@ public class Controller {
 		return lectureDao.insertLec(dto);
 	}
 
-	public ArrayList<LectureDto> selectLec() {
-		return lectureDao.selectLec();
+	public ArrayList<LectureDto> selectLec(int num) {
+		return lectureDao.selectLec(num);
 	}
 
 	public boolean deleteLec(int lenum) {
@@ -133,5 +133,9 @@ public class Controller {
 
 	public boolean updateGrade(GradeDto dto) {
 		return gradeDao.updateGrade(dto);
+	}
+
+	public boolean updateMemInfo(MemberDto dto) {
+		return memberDao.updateMemInfo(dto);
 	}
 }

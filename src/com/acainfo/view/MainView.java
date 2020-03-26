@@ -28,7 +28,7 @@ public class MainView extends JFrame {
 
 	private KPanel pnlNorth;
 	private KPanel pnlTitle;
-	private KPanel pnlMemberInfo;
+	private MemberInfo pnlMemberInfo;
 	private KPanel pnlMenu;
 	private DpmMemberView pnlDepartment;
 	private LecAppView pnlLecture;
@@ -37,31 +37,14 @@ public class MainView extends JFrame {
 	private LecMgtView pnlLectureMgt;
 	private KPanel pnlAdmin;
 
+	private KLabel lblTitle;
+	private KLabel lblStatus;
+
 	private KButton btnLogout;
 	private KButton btnClose;
 	private KButton btnMemberMgt;
 	private KButton btnDpmMgt;
 	private KButton btnDpmMemMgt;
-
-	private KLabel lblTitle;
-	private KLabel lblId;
-	private KLabel lblNum;
-	private KLabel lblHagnyeno;
-	private KLabel lblName;
-	private KLabel lblEmail;
-	private KLabel lblPhone;
-	private KLabel lblAddr;
-	private KLabel lblAuth;
-	private KLabel lblStatus;
-
-	private JTextField txtId;
-	private JTextField txtNum;
-	private JTextField txtHagnyeno;
-	private JTextField txtName;
-	private JTextField txtEmail;
-	private JTextField txtPhone;
-	private JTextField txtAddr;
-	private JTextField txtAuth;
 
 	private JTabbedPane tab;
 
@@ -75,8 +58,6 @@ public class MainView extends JFrame {
 
 		tabInit();
 
-		memberInfoInit();
-
 		adminInit();
 
 		listenerInit();
@@ -86,75 +67,6 @@ public class MainView extends JFrame {
 
 	private void memberDtoInit() {
 		memberDto = new MemberDto(-1, "", "", "", "", "", -1, "N", -1, null);
-	}
-
-	private void memberInfoInit() {
-		lblId = new KLabel("아이디 : ");
-		lblId.setBounds(50, 30, 100, 30);
-		pnlMemberInfo.add(lblId);
-
-		txtId = new JTextField();
-		txtId.setBounds(120, 35, 100, 25);
-		pnlMemberInfo.add(txtId);
-
-		lblNum = new KLabel("학번 : ");
-		lblNum.setBounds(50, 70, 100, 30);
-		pnlMemberInfo.add(lblNum);
-
-		txtNum = new JTextField();
-		txtNum.setBounds(120, 75, 100, 25);
-		txtNum.setEditable(false);
-		pnlMemberInfo.add(txtNum);
-
-		lblHagnyeno = new KLabel("학년 : ");
-		lblHagnyeno.setBounds(50, 110, 100, 30);
-		pnlMemberInfo.add(lblHagnyeno);
-
-		txtHagnyeno = new JTextField();
-		txtHagnyeno.setBounds(120, 115, 100, 25);
-		txtHagnyeno.setEditable(false);
-		pnlMemberInfo.add(txtHagnyeno);
-
-		lblName = new KLabel("이름 : ");
-		lblName.setBounds(50, 150, 100, 30);
-		pnlMemberInfo.add(lblName);
-
-		txtName = new JTextField();
-		txtName.setBounds(120, 155, 100, 25);
-		pnlMemberInfo.add(txtName);
-
-		lblEmail = new KLabel("이메일 : ");
-		lblEmail.setBounds(50, 190, 100, 30);
-		pnlMemberInfo.add(lblEmail);
-
-		txtEmail = new JTextField();
-		txtEmail.setBounds(120, 195, 170, 25);
-		pnlMemberInfo.add(txtEmail);
-
-		lblPhone = new KLabel("휴대폰 번호 : ");
-		lblPhone.setBounds(50, 230, 100, 30);
-		pnlMemberInfo.add(lblPhone);
-
-		txtPhone = new JTextField();
-		txtPhone.setBounds(150, 235, 100, 25);
-		pnlMemberInfo.add(txtPhone);
-
-		lblAddr = new KLabel("주소 : ");
-		lblAddr.setBounds(50, 270, 100, 30);
-		pnlMemberInfo.add(lblAddr);
-
-		txtAddr = new JTextField();
-		txtAddr.setBounds(120, 275, 300, 25);
-		pnlMemberInfo.add(txtAddr);
-
-		lblAuth = new KLabel("구분 : ");
-		lblAuth.setBounds(50, 310, 100, 30);
-		pnlMemberInfo.add(lblAuth);
-
-		txtAuth = new JTextField();
-		txtAuth.setBounds(120, 315, 100, 25);
-		txtAuth.setEditable(false);
-		pnlMemberInfo.add(txtAuth);
 	}
 
 	private void listenerInit() {
@@ -229,7 +141,7 @@ public class MainView extends JFrame {
 		pnlMenu.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		pnlNorth.add(pnlMenu);
 
-		pnlMemberInfo = new KPanel();
+		pnlMemberInfo = new MemberInfo(controller);
 
 		pnlDepartment = new DpmMemberView(controller);
 
@@ -297,9 +209,8 @@ public class MainView extends JFrame {
 		LoginView loginView = new LoginView(controller);
 		MainView.memberDto = loginView.getMemberDto();
 
-		setMemInfo(memberDto);
-
 		if (memberDto != null) {
+			pnlMemberInfo.setMemInfo(memberDto);
 			lblStatus.setText("[ " + memberDto.getName() + " ]");
 			removeTabTitle("성적 관리");
 			removeTabTitle("강의 관리");
@@ -314,26 +225,6 @@ public class MainView extends JFrame {
 
 			tab.setSelectedIndex(0);
 		}
-	}
-
-	private void setMemInfo(MemberDto memberDto) {
-		txtId.setText(memberDto.getId());
-		txtNum.setText(Integer.toString(memberDto.getNum()));
-		txtHagnyeno.setText(Integer.toString(memberDto.getHagnyeno()));
-		txtName.setText(memberDto.getName());
-		txtEmail.setText(memberDto.getEmail());
-		txtPhone.setText(memberDto.getPhone());
-		txtAddr.setText(memberDto.getAddr());
-
-		String auth = "";
-		if (memberDto.getAuth() == 10) {
-			auth = "학생";
-		} else if (memberDto.getAuth() == 50) {
-			auth = "교수";
-		} else if (memberDto.getAuth() == 99) {
-			auth = "관리자";
-		}
-		txtAuth.setText(auth);
 	}
 
 	private void addTabProf() {

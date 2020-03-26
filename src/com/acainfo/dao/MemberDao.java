@@ -74,21 +74,38 @@ public class MemberDao extends Dao {
 		return null;
 	}
 
-	public boolean insertMember(MemberDto dto, String pass) {
+	/////////////////////////////////
+	// return
+	// -1 : 아이디 중복
+	// 0 : 실패
+	// 1 : 완료
+	/////////////////////////////////
+	public int insertMember(MemberDto pDto, String pPass) {
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
+		ResultSet rs = null;
 		try {
 			con = conn();
+			String sql3 = "select id from member where id=?";
+			pstmt3 = con.prepareStatement(sql3);
+			pstmt3.setString(1, pDto.getId());
+			rs = pstmt3.executeQuery();
+			if (rs.next()) {
+				System.out.println("[ insertMember 아이디 중복 ]");
+				return -1;
+			}
+
 			con.setAutoCommit(false);
 			String sql = "insert into member values(member_num_seq.nextval,?,?,?,?,?,?,'N',?,sysdate)";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, dto.getId());
-			pstmt.setString(2, dto.getName());
-			pstmt.setString(3, dto.getEmail());
-			pstmt.setString(4, dto.getPhone());
-			pstmt.setString(5, dto.getAddr());
-			pstmt.setInt(6, dto.getHagnyeno());
-			pstmt.setInt(7, dto.getAuth());
+			pstmt.setString(1, pDto.getId());
+			pstmt.setString(2, pDto.getName());
+			pstmt.setString(3, pDto.getEmail());
+			pstmt.setString(4, pDto.getPhone());
+			pstmt.setString(5, pDto.getAddr());
+			pstmt.setInt(6, pDto.getHagnyeno());
+			pstmt.setInt(7, pDto.getAuth());
 			int n = pstmt.executeUpdate();
 			if (n > 0) {
 				System.out.println("[ insertMember member 성공 ]");
@@ -96,19 +113,19 @@ public class MemberDao extends Dao {
 
 			String sql2 = "insert into pass values(member_num_seq.currval,?,?,'N')";
 			pstmt2 = con.prepareStatement(sql2);
-			pstmt2.setString(1, dto.getId());
-			pstmt2.setString(2, pass);
+			pstmt2.setString(1, pDto.getId());
+			pstmt2.setString(2, pPass);
 			int n2 = pstmt2.executeUpdate();
 			if (n2 > 0) {
 				System.out.println("[ insertMember(2) pass 성공 ]");
 				con.commit();
-				return true;
+				return 1;
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			try {
 				con.rollback();
-				return false;
+				return -1;
 			} catch (SQLException e1) {
 				System.out.println(e.getMessage());
 			}
@@ -116,7 +133,7 @@ public class MemberDao extends Dao {
 			dbClose(pstmt2);
 			dbClose(null, pstmt, con);
 		}
-		return false;
+		return -1;
 	}
 
 	public ArrayList<MemberDto> selectMemList(int pAuth) {
@@ -181,7 +198,7 @@ public class MemberDao extends Dao {
 		}
 	}
 
-	public ArrayList<MemberDto> selectDpmMemList(int denum) {
+	public ArrayList<MemberDto> selectDpmMemList(int pDeNum) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<MemberDto> list = null;
@@ -189,7 +206,7 @@ public class MemberDao extends Dao {
 			con = conn();
 			String sql = "select m.num,m.name from member m,dpm_member d where m.num=d.num(+) and d.denum=? and m.del_yn='N'";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, denum);
+			pstmt.setInt(1, pDeNum);
 			rs = pstmt.executeQuery();
 
 			list = new ArrayList<MemberDto>();
@@ -209,7 +226,7 @@ public class MemberDao extends Dao {
 		}
 	}
 
-	public ArrayList<MemberDto> selectMemDpm(int denum) {
+	public ArrayList<MemberDto> selectMemDpm(int pDeNum) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<MemberDto> list = null;
@@ -217,7 +234,7 @@ public class MemberDao extends Dao {
 			con = conn();
 			String sql = "select m.num,m.id,m.name,m.email,m.phone,m.addr,m.hagnyeno,m.del_yn,m.auth,m.medate from member m, dpm_member d where m.num = d.num and denum=? and del_yn='N'";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, denum);
+			pstmt.setInt(1, pDeNum);
 			rs = pstmt.executeQuery();
 
 			list = new ArrayList<MemberDto>();
@@ -244,7 +261,7 @@ public class MemberDao extends Dao {
 		return null;
 	}
 
-	public boolean deleteMem(int num) {
+	public boolean deleteMem(int pNum) {
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt2 = null;
 		try {
@@ -252,7 +269,7 @@ public class MemberDao extends Dao {
 			con.setAutoCommit(false);
 			String sql = "update member set del_yn='Y' where num=?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, num);
+			pstmt.setInt(1, pNum);
 			int n = pstmt.executeUpdate();
 			if (n > 0) {
 				System.out.println("[ deleteMem member 성공 ]");
@@ -260,7 +277,7 @@ public class MemberDao extends Dao {
 
 			String sql2 = "update pass set del_yn='Y' where num=?";
 			pstmt2 = con.prepareStatement(sql2);
-			pstmt2.setInt(1, num);
+			pstmt2.setInt(1, pNum);
 			int n2 = pstmt2.executeUpdate();
 			if (n2 > 0) {
 				System.out.println("[ deleteMem(2) pass 성공 ]");
@@ -276,6 +293,31 @@ public class MemberDao extends Dao {
 			}
 		} finally {
 			dbClose(pstmt2);
+			dbClose(null, pstmt, con);
+		}
+		return false;
+	}
+
+	public boolean updateMemInfo(MemberDto pDto) {
+		PreparedStatement pstmt = null;
+		try {
+			con = conn();
+			String sql = "update member set id=?,name=?,email=?,phone=?,addr=? where num=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, pDto.getId());
+			pstmt.setString(2, pDto.getName());
+			pstmt.setString(3, pDto.getEmail());
+			pstmt.setString(4, pDto.getPhone());
+			pstmt.setString(5, pDto.getAddr());
+			pstmt.setInt(6, pDto.getNum());
+			int n = pstmt.executeUpdate();
+			if (n > 0) {
+				System.out.println("[ updateMemInfo 성공 ]");
+				return true;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
 			dbClose(null, pstmt, con);
 		}
 		return false;

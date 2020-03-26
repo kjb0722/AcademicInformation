@@ -38,15 +38,13 @@ public class LecMgtView extends KPanel {
 		btnInit();
 
 		tableInit();
-
-		//selectLec();
 	}
 
 	public void selectLec() {
 		model.setNumRows(0);
 
 		ArrayList<LectureDto> arrayDto = new ArrayList<LectureDto>();
-		arrayDto = controller.selectLec();
+		arrayDto = controller.selectLec(MainView.memberDto.getNum());
 		for (LectureDto dto : arrayDto) {
 			Vector<Object> vec = new Vector<Object>();
 			vec.add(dto.getLeNum());

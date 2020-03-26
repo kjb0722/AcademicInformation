@@ -8,7 +8,7 @@ import com.acainfo.dto.DpmMemDto;
 
 public class DpmMemDao extends Dao {
 
-	public boolean delInsDpmMem(ArrayList<DpmMemDto> arrayDto, int pDeNum) {
+	public boolean delInsDpmMem(ArrayList<DpmMemDto> pArrayDto, int pDeNum) {
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt2 = null;
 		try {
@@ -21,7 +21,7 @@ public class DpmMemDao extends Dao {
 			System.out.println("[ delInsDpmMem " + n + "건 삭제 성공 ]");
 
 			int n2 = 0;
-			for (DpmMemDto dto : arrayDto) {
+			for (DpmMemDto dto : pArrayDto) {
 				int deNum = dto.getDenum();
 				int num = dto.getNum();
 				String sql2 = "insert into dpm_member values(?,?)";

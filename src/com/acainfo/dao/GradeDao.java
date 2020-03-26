@@ -69,16 +69,16 @@ public class GradeDao extends Dao {
 		return null;
 	}
 
-	public boolean updateGrade(GradeDto dto) {
+	public boolean updateGrade(GradeDto pDto) {
 		PreparedStatement pstmt = null;
 		try {
 			con = conn();
 			String sql = "update grade set score=?,rank=?,grdate=sysdate where lenum=? and num=?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, dto.getScore());
-			pstmt.setString(2, dto.getRank());
-			pstmt.setInt(3, dto.getLeNum());
-			pstmt.setInt(4, dto.getNum());
+			pstmt.setInt(1, pDto.getScore());
+			pstmt.setString(2, pDto.getRank());
+			pstmt.setInt(3, pDto.getLeNum());
+			pstmt.setInt(4, pDto.getNum());
 			int n = pstmt.executeUpdate();
 			if (n > 0) {
 				System.out.println("[ updateGrade 성공 ]");

@@ -36,13 +36,13 @@ public class DpmDao extends Dao {
 		}
 	}
 
-	public boolean insertDpm(String dpmName) {
+	public boolean insertDpm(String pDpmName) {
 		PreparedStatement pstmt = null;
 		try {
 			con = conn();
 			String sql = "insert into department values(department_denum_seq.nextval,?,'N')";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, dpmName);
+			pstmt.setString(1, pDpmName);
 			int n = pstmt.executeUpdate();
 			if (n > 0) {
 				System.out.println("[ insertDpm 성공 ]");
@@ -56,13 +56,13 @@ public class DpmDao extends Dao {
 		return false;
 	}
 
-	public boolean deleteDpm(int deNum) {
+	public boolean deleteDpm(int pDeNum) {
 		PreparedStatement pstmt = null;
 		try {
 			con = conn();
 			String sql = "update department set del_yn='Y' where denum=?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, deNum);
+			pstmt.setInt(1, pDeNum);
 			int n = pstmt.executeUpdate();
 			if (n > 0) {
 				System.out.println("[ deleteDpm 성공 ]");
