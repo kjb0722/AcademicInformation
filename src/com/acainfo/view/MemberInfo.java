@@ -156,6 +156,7 @@ public class MemberInfo extends KPanel {
 	private void txtInit() {
 		txtId = new JTextField();
 		txtId.setBounds(120, 35, 100, 25);
+		txtId.setEditable(false);
 		add(txtId);
 
 		txtNum = new JTextField();

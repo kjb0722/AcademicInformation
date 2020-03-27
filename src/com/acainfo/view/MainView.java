@@ -3,15 +3,15 @@ package com.acainfo.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -118,12 +118,15 @@ public class MainView extends JFrame {
 	}
 
 	private void northInit() {
-		lblTitle = new KLabel("[ 학사 정보 관리 ]");
-		lblTitle.setFont(new Font("맑은 고딕", Font.BOLD, 24));
+//		lblTitle = new KLabel("[ 학사 정보 관리 ]");
+//		lblTitle.setFont(new Font("맑은 고딕", Font.BOLD, 24));
+		lblTitle = new KLabel();
+		lblTitle.setIcon(new ImageIcon("준범대학교.png"));
+		lblTitle.setSize(400, 100);
 		pnlTitle.add(lblTitle);
 
 		lblStatus = new KLabel();
-		lblStatus.setForeground(Color.red);
+		lblStatus.setForeground(Color.yellow);
 		pnlMenu.add(lblStatus);
 
 		btnLogout = new KButton("로그아웃");
@@ -136,14 +139,18 @@ public class MainView extends JFrame {
 	private void panelInit() {
 		pnlNorth = new KPanel();
 		pnlNorth.setLayout(new GridLayout(1, 2));
+		pnlNorth.setBounds(0, 0, 600, 100);
 		add(pnlNorth, BorderLayout.NORTH);
 
 		pnlTitle = new KPanel();
 		pnlTitle.setLayout(new FlowLayout());
+		pnlTitle.setBackground(new Color(85, 170, 80));
+		pnlTitle.setBounds(0, 0, 100, 100);
 		pnlNorth.add(pnlTitle);
 
 		pnlMenu = new KPanel();
 		pnlMenu.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		pnlMenu.setBackground(new Color(85, 170, 80));
 		pnlNorth.add(pnlMenu);
 
 		pnlMemberInfo = new MemberInfo(controller, this);
